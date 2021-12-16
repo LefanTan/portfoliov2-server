@@ -1,7 +1,8 @@
 import express from "express";
 
 var app = express();
-const port = 3000;
+// same port exposed in Dockerfile
+const port = 3001;
 
 app.use(express.static("src"));
 

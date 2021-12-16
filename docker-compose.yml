@@ -1,8 +1,22 @@
 version: '3'
 services: 
   backend:
+    container_name: backend
     image: lefantan/portfoliov2-backend
-    ports:
-      - "3000:3000"
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./:/app
+    ports: #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
+      - "3000:3001"
+  client:
+    container_name: backend_client
+    image: lefantan/portfoliov2-backend_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+    ports:
+      - "4000:4000"
