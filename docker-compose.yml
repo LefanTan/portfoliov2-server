@@ -1,4 +1,8 @@
-version: '3'
+version: '3.8'
+
+x-common-variables: &common-variables
+  MYSQL_DATABASE: portfolio
+
 services: 
   backend:
     container_name: backend
@@ -8,7 +12,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/app
-    ports: #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
+    ports: 
+      #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
       - "3000:3001"
   client:
     container_name: backend_client
@@ -20,3 +25,13 @@ services:
       - ./client:/app
     ports:
       - "4000:4000"
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
+    volumes: # persist data
+      - ./temp_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      <<: *common-variables
+    ports:
+      - "3306:3306"
