@@ -1,30 +1,28 @@
 import express from "express";
 import { createConnection, createPool } from "mysql2";
+import db from "./models/index";
 
-// same port exposed in Dockerfile
-const port = 3001;
+require("dotenv").config();
+
+const PORT = process.env.PORT || 3001;
 const cors = require("cors");
 
 var app = express();
 
+// restrict cors to the local client
 app.use(cors());
+// parse requests of content-type - application/json
 app.use(express.json());
+// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("src"));
 
-const db = createConnection({
-  host: "mysql",
-  user: "root",
-  password: "admin",
-  database: "portfolio",
-});
+// force = true only during development, as it drops all data
+// use alter?
+db.sequelize
+  .sync({ alter: true })
+  .then(() => console.log("Drop and Resync DB"));
 
-app.get("/get", (req, res) => {
-  const query = "SELECT * FROM users";
-  db.query(query, (err, result) => {
-    res.send(result);
-  });
-});
-
-app.listen(port, () => {
-  console.log("app listening on port " + port);
+app.listen(PORT, () => {
+  console.log("app listening on port " + PORT);
 });
