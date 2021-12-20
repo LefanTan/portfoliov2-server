@@ -1,5 +1,4 @@
 import express from "express";
-import { createConnection, createPool } from "mysql2";
 import db from "./models/index";
 
 require("dotenv").config();
@@ -19,9 +18,19 @@ app.use(express.static("src"));
 
 // force = true only during development, as it drops all data
 // use alter?
-db.sequelize
-  .sync({ alter: true })
-  .then(() => console.log("Drop and Resync DB"));
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync DB");
+  init();
+});
+
+const init = () => {
+  db.ROLES.forEach((type, idx) =>
+    db.role.create({
+      id: idx + 1,
+      name: type,
+    })
+  );
+};
 
 app.listen(PORT, () => {
   console.log("app listening on port " + PORT);
