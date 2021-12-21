@@ -4,19 +4,19 @@ x-common-variables: &common-variables
   MYSQL_DATABASE: portfolio
 
 services: 
-  backend:
-    container_name: backend
+  api:
+    container_name: api
     image: lefantan/portfoliov2-backend
     build:
-      context: .
+      context: ./api
       dockerfile: Dockerfile
     volumes:
-      - ./:/app
+      - ./api:/app
     ports: 
       #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
       - "3000:3001"
   client:
-    container_name: backend_client
+    container_name: client
     image: lefantan/portfoliov2-backend_client
     build:
       context: ./client
@@ -25,6 +25,16 @@ services:
       - ./client:/app
     ports:
       - "4000:4000"
+  nginx:
+    container_name: nginx
+    depends_on:
+      - api
+      - client
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
   mysql:
     image: mysql:8.0.27
     container_name: mysql
