@@ -1,17 +1,24 @@
-import { Sequelize, STRING } from "sequelize";
+import {
+  Table,
+  Column,
+  Model,
+  BelongsToMany,
+  ForeignKey,
+} from "sequelize-typescript";
+import Role from "./role.model";
+import UserRoles from "./user_roles.model";
 
-export default function userInit(sequelize: Sequelize) {
-  const User = sequelize.define("users", {
-    username: {
-      type: STRING,
-    },
-    email: {
-      type: STRING,
-    },
-    password: {
-      type: STRING,
-    },
-  });
+@Table
+export default class User extends Model {
+  @Column
+  username: string;
 
-  return User;
+  @Column
+  email: string;
+
+  @Column
+  password: string;
+
+  @BelongsToMany(() => Role, () => UserRoles)
+  roles: Role[];
 }

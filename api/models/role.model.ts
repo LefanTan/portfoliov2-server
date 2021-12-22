@@ -1,15 +1,22 @@
-import { INTEGER, Sequelize, STRING } from "sequelize";
+import {
+  Model,
+  Table,
+  Column,
+  BelongsToMany,
+  PrimaryKey,
+} from "sequelize-typescript";
+import User from "./user.model";
+import UserRoles from "./user_roles.model";
 
-export default function roleInit(sequelize: Sequelize) {
-  const Role = sequelize.define("roles", {
-    id: {
-      type: INTEGER,
-      primaryKey: true,
-    },
-    name: {
-      type: STRING,
-    },
-  });
+@Table
+export default class Role extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
 
-  return Role;
+  @Column
+  name: string;
+
+  @BelongsToMany(() => User, () => UserRoles)
+  users: User[];
 }
