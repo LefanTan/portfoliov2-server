@@ -1,5 +1,5 @@
-import { sign } from "crypto";
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 import authJwt from "../middleware/authJwt";
@@ -11,6 +11,11 @@ import { UserAuthRequest } from "../types/request";
 const bcrypt = require("bcryptjs");
 
 const signup = (req: UserAuthRequest, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({ errors: errors.array() });
+  }
+
   // Save user data to database
   db.user
     .create({
@@ -30,11 +35,16 @@ const signup = (req: UserAuthRequest, res: Response) => {
             },
           })
           .then((roles) => {
-            user
-              .$set("roles", roles)
-              .then(() =>
-                res.send({ message: "User created successfully", user: user })
-              );
+            user.$set("roles", roles).then(() =>
+              res.send({
+                message: "User created successfully",
+                user: {
+                  id: user.id,
+                  email: user.email,
+                  username: user.username,
+                },
+              })
+            );
           });
       } else {
         // Add "user" role to this user
@@ -42,7 +52,10 @@ const signup = (req: UserAuthRequest, res: Response) => {
           .findOne({ where: { name: "user" } })
           .then((role) => user.$add("role", role!))
           .then(() =>
-            res.send({ message: "User created successfully", user: user })
+            res.send({
+              message: "User created successfully",
+              user: { id: user.id, email: user.email, username: user.username },
+            })
           );
       }
     })
@@ -50,9 +63,17 @@ const signup = (req: UserAuthRequest, res: Response) => {
 };
 
 const signin = (req: UserAuthRequest, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({ errors: errors.array() });
+  }
+
   User.findOne({
     where: {
-      username: req.body.username,
+      [Op.or]: {
+        username: req.body.username || null,
+        email: req.body.email || null,
+      },
     },
     include: [Role],
   }).then((user) => {
@@ -75,7 +96,14 @@ const signin = (req: UserAuthRequest, res: Response) => {
       );
 
       user.$get("roles").then((roles) => {
-        res.send({ user, accessToken: token });
+        res.send({
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+          },
+          accessToken: token,
+        });
       });
     } else {
       return res.status(404).send({ message: "User not found" });

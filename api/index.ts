@@ -12,9 +12,15 @@ const bcrypt = require("bcryptjs");
 
 var app = express();
 
-// restrict cors to the local client
+/**
+ * Setup Global Middlewares
+ */
+
+// Enable cors to all origins
+// Access-Control-Allow-Origin: *
 app.use(cors());
-// Allow headers
+
+// Allow the following response headers
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
@@ -22,10 +28,14 @@ app.use((req, res, next) => {
   );
   next();
 });
+
 // parse requests of content-type - application/json
 app.use(express.json());
+
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+// use src folder to serve static html
 app.use(express.static("src"));
 
 app.use("/auth", authRoutes);

@@ -1,14 +1,10 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import authController from "../controllers/auth.controller";
-import verifySignup from "../middleware/verifySignup";
+import { signinValidate, signupValidate } from "../middleware/auth.validation";
 
 const authRoutes = Router();
 export default authRoutes;
 
-authRoutes.post(
-  "/signup",
-  [verifySignup.checkDuplicateUsernameOrEmail, verifySignup.checkRolesExisted],
-  authController.signup
-);
+authRoutes.post("/signup", signupValidate, authController.signup);
 
-authRoutes.post("/signin", authController.signin);
+authRoutes.post("/signin", signinValidate, authController.signin);
