@@ -5,10 +5,12 @@ import authJwt from "../middleware/authJwt";
 const userRoutes = Router();
 export default userRoutes;
 
-userRoutes.get("/all", userController.allAccess);
-userRoutes.get("/user", [authJwt.verifyToken], userController.userBoard);
-userRoutes.get(
-  "/admin",
-  [authJwt.isAdmin, authJwt.verifyToken],
-  userController.adminBoard
-);
+/**
+ * COMMENTS:
+ * No need for a POST method, since user and profile is created during sign up
+ */
+
+userRoutes.get("/", [authJwt.verifyToken], userController.userBoard);
+userRoutes.get("/:id", [authJwt.verifyToken], userController.getUser);
+userRoutes.put("/:id", [authJwt.verifyToken], userController.updateUser);
+userRoutes.delete("/:id", [authJwt.verifyToken], userController.deleteUser);

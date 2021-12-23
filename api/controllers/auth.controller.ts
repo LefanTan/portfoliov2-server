@@ -58,6 +58,13 @@ const signup = (req: UserAuthRequest, res: Response) => {
             })
           );
       }
+
+      // Create profile for the user
+      db.profile
+        .create({
+          userId: user.id,
+        })
+        .then((profile) => user.$set("profile", profile));
     })
     .catch((err) => res.status(500).send({ message: err.message }));
 };

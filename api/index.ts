@@ -4,6 +4,8 @@ import db from "./models/index";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 
+const faker = require("faker");
+
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
@@ -24,7 +26,8 @@ app.use(cors());
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
-    "x-access-token, Origin, Content-Type, Accept"
+    //"x-access-token, Origin, Content-Type, Accept"
+    "x-access-token"
   );
   next();
 });
@@ -39,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("src"));
 
 app.use("/auth", authRoutes);
-app.use(userRoutes);
+app.use("/user", userRoutes);
 
 // force = true only during development, as it drops all data
 // use alter?
@@ -55,28 +58,45 @@ const init = () => {
   db.user
     .create({
       username: "lefan",
-      password: bcrypt.hashSync("test", 8),
-      email: "lefanta@hotmail.com",
+      password: bcrypt.hashSync("admin", 8),
+      email: "lefantan@hotmail.com",
     })
     .then((user) => {
       db.role.findOne({ where: { name: "admin" } }).then((role) => {
         user.$add("role", role!);
       });
+
+      db.profile
+        .create({
+          id: user.id,
+        })
+        .then((profile) => user.$set("profile", profile));
     });
 
-  db.user
-    .create({
-      username: "selene",
-      password: bcrypt.hashSync("whatthefuck", 8),
-      email: "woahhhhey@hotmail.com",
-    })
-    .then((user) => {
-      db.role
-        .findAll({ where: { [Op.or]: [{ name: "user" }, { name: "admin" }] } })
-        .then((roles) => {
-          roles.forEach((role) => user.$add("role", role!));
-        });
-    });
+  // Create 10 users and their profile
+  for (let i = 0; i < 10; i++) {
+    db.user
+      .create({
+        username: faker.internet.userName(),
+        password: bcrypt.hashSync(faker.internet.password(), 8),
+        email: faker.internet.email().toLowerCase(),
+      })
+      .then((user) => {
+        db.role
+          .findAll({
+            where: { [Op.or]: [{ name: "user" }, { name: "admin" }] },
+          })
+          .then((roles) => {
+            roles.forEach((role) => user.$add("role", role!));
+          });
+
+        db.profile
+          .create({
+            id: user.id,
+          })
+          .then((profile) => user.$set("profile", profile));
+      });
+  }
 };
 
 app.listen(PORT, () => {

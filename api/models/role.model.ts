@@ -4,6 +4,7 @@ import {
   Column,
   BelongsToMany,
   PrimaryKey,
+  AllowNull,
 } from "sequelize-typescript";
 import User from "./user.model";
 import UserRoles from "./user_roles.model";
@@ -14,6 +15,7 @@ export default class Role extends Model {
   @Column
   id: number;
 
+  @AllowNull(false)
   @Column
   name: string;
 
