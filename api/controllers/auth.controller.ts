@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
+import db from "../config/db.config";
 import authJwt from "../middleware/authJwt";
-import db from "../models";
 import Role from "../models/role.model";
 import User from "../models/user.model";
 import { UserAuthRequest } from "../types/request";
@@ -102,7 +102,7 @@ const signin = (req: UserAuthRequest, res: Response) => {
         { expiresIn: "30d" }
       );
 
-      user.$get("roles").then((roles) => {
+      user.$get("roles").then(() => {
         res.send({
           user: {
             id: user.id,

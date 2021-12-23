@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import db from "../models";
+import db from "../config/db.config";
 import { UserAuthRequest } from "../types/request";
 
 /**

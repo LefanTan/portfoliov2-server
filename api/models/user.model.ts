@@ -6,8 +6,10 @@ import {
   ForeignKey,
   HasOne,
   AllowNull,
+  HasMany,
 } from "sequelize-typescript";
 import Profile from "./profile.model";
+import Project from "./project.model";
 import Role from "./role.model";
 import UserRoles from "./user_roles.model";
 
@@ -29,4 +31,7 @@ export default class User extends Model {
 
   @HasOne(() => Profile)
   profile: Profile;
+
+  @HasMany(() => Project)
+  projects: Project[];
 }

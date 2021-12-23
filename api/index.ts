@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { Op } from "sequelize";
-import db from "./models/index";
+import db from "./config/db.config";
 import authRoutes from "./routes/auth.routes";
+import projectRoutes from "./routes/project.routes";
 import userRoutes from "./routes/user.routes";
 
 const faker = require("faker");
@@ -43,6 +44,7 @@ app.use(express.static("src"));
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/project", projectRoutes);
 
 // force = true only during development, as it drops all data
 // use alter?

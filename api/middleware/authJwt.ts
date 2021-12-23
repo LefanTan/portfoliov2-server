@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import db from "../models";
+import db from "../config/db.config";
 import { UserAuthRequest } from "../types/request";
 
 const default_secret = (Math.random() * 1000).toString();

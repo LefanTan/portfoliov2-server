@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import db from "../models";
+import db from "../config/db.config";
 import Profile from "../models/profile.model";
 
 const userBoard = (req: Request, res: Response) => {

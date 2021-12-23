@@ -1,5 +1,13 @@
 import { Sequelize } from "sequelize-typescript";
-import config from "../config/db.config";
+import { Dialect } from "sequelize";
+
+const config = {
+  HOST: "mysql",
+  USER: "root",
+  PASSWORD: "admin",
+  DB: "portfolio",
+  dialect: "mysql" as Dialect,
+};
 
 // Intialize sequelize connection
 const sequelizeConnection = new Sequelize({
@@ -9,6 +17,7 @@ const sequelizeConnection = new Sequelize({
   storage: ":memory:",
   host: config.HOST,
   dialect: "mysql",
-  models: [__dirname + "/**/*.model.ts"],
+  models: ["/app/**/*.model.ts"],
 });
+
 export default sequelizeConnection;

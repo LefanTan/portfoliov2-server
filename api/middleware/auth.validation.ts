@@ -1,5 +1,5 @@
 import { check, oneOf } from "express-validator";
-import db from "../models";
+import db from "../config/db.config";
 
 const checkIfRolesExisted = check("roles")
   .isIn(db.ROLES)
@@ -38,6 +38,20 @@ export const signupValidate = [
   check("username").exists().withMessage("Username can not be empty"),
   check("password").exists().withMessage("Password can not be empty"),
   check("email").exists().withMessage("Email can not be empty"),
+  check("username")
+    .isAlphanumeric()
+    .withMessage("Username has to be alphanumeric"),
+  check("email").custom((value: string) => {
+    if (
+      !value
+        .toString()
+        .match(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      throw Promise.reject("Not a valid email");
+    }
+  }),
   checkIfRolesExisted,
   checkDuplicateUsernameOrEmail,
 ];
@@ -48,4 +62,21 @@ export const signinValidate = [
     "Either username or email needed"
   ),
   check("password").exists().withMessage("Password can not be empty"),
+];
+
+export const updateUserValidate = [
+  check("username")
+    .isAlphanumeric()
+    .withMessage("Username has to be alphanumeric"),
+  check("email").custom((value: string) => {
+    if (
+      !value
+        .toString()
+        .match(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      throw Promise.reject("Not a valid email");
+    }
+  }),
 ];

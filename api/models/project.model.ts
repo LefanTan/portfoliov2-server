@@ -1,5 +1,12 @@
-import { AllowNull, Column, Model, Table } from "sequelize-typescript";
-import { ARRAY, STRING } from "sequelize";
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import User from "./user.model";
 
 @Table
 export default class Project extends Model {
@@ -33,4 +40,10 @@ export default class Project extends Model {
 
   @Column
   inProgress: boolean;
+
+  @ForeignKey(() => User)
+  userId: number;
+
+  @BelongsTo(() => User, { onDelete: "CASCADE" })
+  user: User;
 }
