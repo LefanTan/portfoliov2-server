@@ -119,7 +119,7 @@ const signin = (req: UserAuthRequest, res: Response) => {
 };
 
 const authController = {
-  signup: signup,
-  signin: signin,
+  signup,
+  signin,
 };
 export default authController;

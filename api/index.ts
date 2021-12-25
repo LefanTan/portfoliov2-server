@@ -1,50 +1,16 @@
-import express, { Request, Response } from "express";
 import { Op } from "sequelize";
+import { main } from "./main";
 import db from "./config/db.config";
-import authRoutes from "./routes/auth.routes";
-import projectRoutes from "./routes/project.routes";
-import userRoutes from "./routes/user.routes";
-
-const faker = require("faker");
 
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
-const cors = require("cors");
+const faker = require("faker");
 const bcrypt = require("bcryptjs");
 
-var app = express();
-
-/**
- * Setup Global Middlewares
- */
-
-// Enable cors to all origins
-// Access-Control-Allow-Origin: *
-app.use(cors());
-
-// Allow the following response headers
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Headers",
-    //"x-access-token, Origin, Content-Type, Accept"
-    "x-access-token"
-  );
-  next();
+main().listen(PORT, () => {
+  console.log("app listening on port " + PORT);
 });
-
-// parse requests of content-type - application/json
-app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
-
-// use src folder to serve static html
-app.use(express.static("src"));
-
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-app.use("/project", projectRoutes);
 
 // force = true only during development, as it drops all data
 // use alter?
@@ -100,7 +66,3 @@ const init = () => {
       });
   }
 };
-
-app.listen(PORT, () => {
-  console.log("app listening on port " + PORT);
-});

@@ -44,8 +44,8 @@ const isAdmin = (req: UserAuthRequest, res: Response, next: NextFunction) => {
 };
 
 const authJwt = {
-  isAdmin: isAdmin,
-  verifyToken: verifyToken,
-  default_secret: default_secret,
+  isAdmin,
+  verifyToken,
+  default_secret,
 };
 export default authJwt;

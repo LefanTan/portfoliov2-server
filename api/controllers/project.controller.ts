@@ -124,11 +124,11 @@ const updateProject = (req: Request, res: Response) => {
 };
 
 const projectController = {
-  getAllProjects: getAllProjects,
-  getProject: getProject,
-  deleteProject: deleteProject,
-  createProject: createProject,
-  updateProject: updateProject,
+  getAllProjects,
+  getProject,
+  deleteProject,
+  createProject,
+  updateProject,
 };
 
 export default projectController;

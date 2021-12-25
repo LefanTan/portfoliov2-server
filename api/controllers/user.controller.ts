@@ -82,9 +82,9 @@ const deleteUser = (req: Request, res: Response) => {
 };
 
 const userController = {
-  userBoard: userBoard,
-  getUser: getUser,
-  updateUser: updateUser,
-  deleteUser: deleteUser,
+  userBoard,
+  getUser,
+  updateUser,
+  deleteUser,
 };
 export default userController;
