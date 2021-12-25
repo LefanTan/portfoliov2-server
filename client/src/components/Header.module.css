@@ -1,0 +1,33 @@
+header {
+  width: 100%;
+  height: 15vh;
+  min-height: 3rem;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h1 {
+  font-weight: 100;
+  font-size: 2.5rem;
+}
+
+nav {
+  display: flex;
+  width: 20%;
+  justify-content: center;
+}
+
+.nav_links {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  justify-content: space-evenly;
+}
+
+.nav_links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+}
