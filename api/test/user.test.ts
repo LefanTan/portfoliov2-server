@@ -1,4 +1,3 @@
-import { main } from "../main";
 import glob from "./test_variable";
 import chai, { expect } from "chai";
 import db from "../config/db.config";

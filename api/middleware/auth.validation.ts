@@ -17,7 +17,7 @@ const checkDuplicateUsernameOrEmail = check("username").custom(
       })
       .then((user) => {
         if (user) {
-          return Promise.reject("Username already in use");
+          throw Promise.reject("Username already in use");
         }
 
         db.user
@@ -28,7 +28,7 @@ const checkDuplicateUsernameOrEmail = check("username").custom(
           })
           .then((email) => {
             if (email) {
-              return Promise.reject("Email already in use");
+              throw Promise.reject("Email already in use");
             }
           });
       });
@@ -38,9 +38,10 @@ const checkDuplicateUsernameOrEmail = check("username").custom(
 export const signupValidate = [
   check("username").exists().withMessage("Username can not be empty"),
   check("password").exists().withMessage("Password can not be empty"),
-  check("email").exists().withMessage("Email can not be empty"),
-  check("username").isString().withMessage("Username has to be alphanumeric"),
   check("email")
+    .exists()
+    .withMessage("Email can not be empty")
+    .bail()
     .custom((value: string) => {
       if (
         !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
@@ -52,6 +53,7 @@ export const signupValidate = [
       return true;
     })
     .withMessage("Not a valid email"),
+  check("username").isString().withMessage("Username has to be alphanumeric"),
   checkIfRolesExisted,
   checkDuplicateUsernameOrEmail,
 ];

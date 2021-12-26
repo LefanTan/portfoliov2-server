@@ -17,3 +17,5 @@ userRoutes.get("/", userController.userBoard);
 userRoutes.get("/:id", userController.getUser);
 userRoutes.put("/:id", updateUserValidate, userController.updateUser);
 userRoutes.delete("/:id", userController.deleteUser);
+
+//userRoutes.post('/signout/:id), userController.signout);

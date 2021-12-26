@@ -103,13 +103,18 @@ const signin = (req: UserAuthRequest, res: Response) => {
       );
 
       user.$get("roles").then(() => {
-        res.send({
+        res.cookie("jwt", token, {
+          expires: new Date(Date.now() + 86400000 * 30),
+          sameSite: true,
+          httpOnly: true, // prevents front-end javascript from accessing cookie
+          secure: false, // set true if using https
+        });
+        return res.send({
           user: {
             id: user.id,
             username: user.username,
             email: user.email,
           },
-          accessToken: token,
         });
       });
     } else {

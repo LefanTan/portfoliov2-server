@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import db from "../config/db.config";
 import Profile from "../models/profile.model";
+import { UserAuthRequest } from "../types/request";
 
 const userBoard = (req: Request, res: Response) => {
   res.status(200).send("User Content");
@@ -10,7 +11,13 @@ const userBoard = (req: Request, res: Response) => {
  * Return User if it exist
  * @param req.params.id - user id
  */
-const getUser = (req: Request, res: Response) => {
+const getUser = (req: UserAuthRequest, res: Response) => {
+  if (req.userId !== req.params.id) {
+    return res
+      .status(403)
+      .send({ error: "Token user id does not match requested id" });
+  }
+
   db.user
     .findOne({
       where: {
@@ -32,7 +39,13 @@ const getUser = (req: Request, res: Response) => {
  * Update user info as well as profile info
  * @param req.params.id - user
  */
-const updateUser = (req: Request, res: Response) => {
+const updateUser = (req: UserAuthRequest, res: Response) => {
+  if (req.userId !== req.params.id) {
+    return res
+      .status(403)
+      .send({ error: "Token user id does not match requested id" });
+  }
+
   db.user
     .findOne({
       where: {
@@ -63,7 +76,13 @@ const updateUser = (req: Request, res: Response) => {
  * Delete User if it exist
  * @param req.params.id - user id to delete
  */
-const deleteUser = (req: Request, res: Response) => {
+const deleteUser = (req: UserAuthRequest, res: Response) => {
+  if (req.userId !== req.params.id) {
+    return res
+      .status(403)
+      .send({ error: "Token user id does not match requested id" });
+  }
+
   db.user
     .findOne({
       where: {

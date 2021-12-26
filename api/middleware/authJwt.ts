@@ -10,7 +10,7 @@ const verifyToken = (
   res: Response,
   next: NextFunction
 ) => {
-  let token = req.headers["x-access-token"];
+  let token = req.headers["x-access-token"] || req.cookies?.jwt;
 
   if (!token) {
     return res.status(403).send({ message: "No token provided" });
