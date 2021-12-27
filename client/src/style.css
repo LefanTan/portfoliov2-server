@@ -1,0 +1,19 @@
+* {
+  box-sizing: content-box;
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+}
+
+.main {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-weight: 100;
+  font-size: 3rem;
+}
