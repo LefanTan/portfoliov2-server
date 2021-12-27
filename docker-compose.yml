@@ -1,0 +1,73 @@
+version: '3.8'
+
+services: 
+  api:
+    depends_on:
+      - mysql
+    container_name: api
+    image: lefantan/portfoliov2-backend
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/app
+    ports: 
+      #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
+      - "3000:3001"
+  test_api:
+    depends_on:
+      - mysql
+    # interactive shell that allows colored output
+    tty: true
+    container_name: test_api
+    image: lefantan/portfoliov2-backend
+    command:
+      [sh, -c, "npm run test"]
+    volumes:
+      - ./api:/app
+    build:
+      context: ./api
+      dockerfile: Dockerfile.test
+    ports:
+      - "3002:3002"
+    environment: 
+      PORT: 3002
+      DB_LOGGING: "false"
+      NODE_ENV: test
+      DB_NAME: test
+  client:
+    container_name: client
+    image: lefantan/portfoliov2-backend_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+    expose:
+      [4000]
+  nginx:
+    container_name: nginx
+    depends_on:
+      - api
+      - client
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
+    volumes: 
+      # persist data
+      - ./temp_data:/var/lib/mysql
+      # init test db
+      - ./test-db.sql:/docker-entrypoint-initdb.d/test-db.sql
+    restart: always
+    cap_add:
+      - SYS_NICE
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: portfolio
+    ports:
+      - "3306:3306"
