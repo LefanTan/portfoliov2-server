@@ -18,11 +18,12 @@ const glob = {
   url,
   app: main(),
   log: (body: string) => console.log("RESPONSE: ", body),
-  getJwtToken: () => {
+  getJwtToken: (user: any) => {
     return db.user
       .create({
-        username: "test",
-        password: "testpassword",
+        id: user.id,
+        username: user.username,
+        password: user.password,
       })
       .then((user) => {
         return jwt.sign(

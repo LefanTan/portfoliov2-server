@@ -82,9 +82,10 @@ const AuthProvider: React.FC = ({ children }) => {
           }
         },
         signout: async () => {
-          await axiosInstance.post("/auth/signout");
+          setUser(undefined);
           localStorage.removeItem("user");
           setLoggedIn(false);
+          await axiosInstance.post("/auth/signout");
         },
       }}
     >

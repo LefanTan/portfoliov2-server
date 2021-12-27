@@ -7,21 +7,25 @@ import SignInPage from "./components/pages/signin.page";
 import SignUpPage from "./components/pages/signup.page";
 import { PrivateRoute, PublicRoute } from "./components/routes";
 import Loading from "./components/loading";
+import SignOutPage from "./components/pages/signout.page";
 
 const App = () => {
   const authContext = useContext(AuthContext);
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * When directing to a new route, useEffect[] never gets called
+   * so authContext.loggedIn will be used as dependency
+   */
   useEffect(() => {
     (async () => {
-      if (!authContext.user && !authContext.loggedIn) {
-        const authed = await authContext.sync();
-        setAuth(authed);
-        setLoading(false);
-      }
+      setLoading(true);
+      const authed = await authContext.sync();
+      setAuth(authed);
+      setLoading(false);
     })();
-  });
+  }, [authContext.loggedIn]);
 
   return (
     <BrowserRouter>
@@ -58,7 +62,7 @@ const App = () => {
             </PublicRoute>
           }
         />
-        <Route path="/signout" element={<SignInPage signout={true} />} />
+        <Route path="/signout" element={<SignOutPage />} />
       </Routes>
     </BrowserRouter>
   );

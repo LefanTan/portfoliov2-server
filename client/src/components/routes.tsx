@@ -21,7 +21,7 @@ export const PrivateRoute: React.FC<TypeRouteProps> = (props) => {
     if (props.isLoading) return;
     else if (props.isAuthenticated) setRender(props.children);
     else setRender(<Navigate replace to="/signin" />);
-  }, [props.isLoading]);
+  }, [props.isLoading, props.isAuthenticated, props.children]);
 
   return <>{render}</>;
 };
@@ -40,7 +40,7 @@ export const PublicRoute: React.FC<TypeRouteProps> = (props) => {
     if (props.isLoading) return;
     else if (!props.isAuthenticated) setRender(props.children);
     else setRender(<Navigate replace to="/home" />);
-  }, [props.isLoading]);
+  }, [props.isLoading, props.isAuthenticated, props.children]);
 
   return <>{render}</>;
 };

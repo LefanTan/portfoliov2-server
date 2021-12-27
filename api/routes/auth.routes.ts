@@ -7,3 +7,4 @@ export default authRoutes;
 
 authRoutes.post("/signup", signupValidate, authController.signup);
 authRoutes.post("/signin", signinValidate, authController.signin);
+authRoutes.post("/signout", authController.signout);

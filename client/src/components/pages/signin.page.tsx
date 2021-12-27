@@ -7,11 +7,7 @@ import * as Yup from "yup";
 import FormError from "../formerror";
 import { useNavigate } from "react-router-dom";
 
-interface SignInProp {
-  signout?: boolean;
-}
-
-const SignInPage = (props: SignInProp) => {
+const SignInPage = () => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const [submitError, setSubmitError] = useState("");
@@ -24,11 +20,6 @@ const SignInPage = (props: SignInProp) => {
   useEffect(() => {
     // check if user already exist in authContext, if so, redirect to homepage
     (async () => {
-      if (props.signout) {
-        await authContext.signout();
-        return;
-      }
-
       let loggedIn = false;
 
       if (!authContext.user || !authContext.loggedIn) {

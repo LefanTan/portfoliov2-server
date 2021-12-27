@@ -12,7 +12,8 @@ const userBoard = (req: Request, res: Response) => {
  * @param req.params.id - user id
  */
 const getUser = (req: UserAuthRequest, res: Response) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId != req.params.id) {
+    console.log(req.userId, req.params.id);
     return res
       .status(403)
       .send({ error: "Token user id does not match requested id" });
@@ -40,7 +41,7 @@ const getUser = (req: UserAuthRequest, res: Response) => {
  * @param req.params.id - user
  */
 const updateUser = (req: UserAuthRequest, res: Response) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId != req.params.id) {
     return res
       .status(403)
       .send({ error: "Token user id does not match requested id" });
@@ -77,7 +78,7 @@ const updateUser = (req: UserAuthRequest, res: Response) => {
  * @param req.params.id - user id to delete
  */
 const deleteUser = (req: UserAuthRequest, res: Response) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId != req.params.id) {
     return res
       .status(403)
       .send({ error: "Token user id does not match requested id" });

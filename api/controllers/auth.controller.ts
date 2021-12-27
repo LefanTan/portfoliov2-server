@@ -35,7 +35,19 @@ const signup = (req: UserAuthRequest, res: Response) => {
             },
           })
           .then((roles) => {
-            user.$set("roles", roles).then(() =>
+            user.$set("roles", roles).then(() => {
+              // Token will expire in 30 days
+              let token = jwt.sign(
+                { id: user.id },
+                process.env.JWT_SECRET || authJwt.default_secret,
+                { expiresIn: "30d" }
+              );
+              res.cookie("jwt", token, {
+                expires: new Date(Date.now() + 86400000 * 30),
+                sameSite: true,
+                httpOnly: true, // prevents front-end javascript from accessing cookie
+                secure: false, // set true if using https
+              });
               res.send({
                 message: "User created successfully",
                 user: {
@@ -43,8 +55,8 @@ const signup = (req: UserAuthRequest, res: Response) => {
                   email: user.email,
                   username: user.username,
                 },
-              })
-            );
+              });
+            });
           });
       } else {
         // Add "user" role to this user
@@ -95,7 +107,7 @@ const signin = (req: UserAuthRequest, res: Response) => {
         });
       }
 
-      // Token will expire in 24 hours
+      // Token will expire in 30 days
       let token = jwt.sign(
         { id: user.id },
         process.env.JWT_SECRET || authJwt.default_secret,
@@ -123,8 +135,18 @@ const signin = (req: UserAuthRequest, res: Response) => {
   });
 };
 
+const signout = (req: Request, res: Response) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: true,
+    secure: false,
+  });
+  return res.send({ message: "Signout successful" });
+};
+
 const authController = {
   signup,
   signin,
+  signout,
 };
 export default authController;

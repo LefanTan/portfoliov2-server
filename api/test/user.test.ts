@@ -13,9 +13,7 @@ describe("Test User Routes", () => {
   before(async () => {
     await db.sequelize.sync({ force: true, match: /test/ });
 
-    jwtToken = await glob.getJwtToken();
-
-    await db.user.create(user);
+    jwtToken = await glob.getJwtToken(user);
   });
 
   it("get /user/:id", (done) => {
