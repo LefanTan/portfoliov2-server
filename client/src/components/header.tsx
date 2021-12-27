@@ -1,11 +1,26 @@
-import * as React from "react";
-import styles from "./Header.module.css";
+import { useContext, useState } from "react";
+import styles from "./header.module.css";
+import { AiOutlineMenu } from "react-icons/ai";
+import { MdOutlineClear } from "react-icons/md";
+import { AuthContext } from "../providers/auth.provider";
 
 export function Header() {
+  const authContext = useContext(AuthContext);
+  const [showNavBar, setShowBar] = useState(false);
+
   return (
-    <header>
-      <h1>Portfolio API</h1>
-      <nav>
+    <header className={styles.header}>
+      <h1 className={styles.h1}>
+        Portfolio <strong>API</strong>
+      </h1>
+      <nav
+        className={
+          showNavBar ? `${styles.nav}  ${styles.nav_active}` : styles.nav
+        }
+      >
+        <button className={styles.clear} onClick={() => setShowBar(false)}>
+          <MdOutlineClear className={styles.clear_icon} />
+        </button>
         <ul className={styles.nav_links}>
           <li>
             <a href="#">Profile</a>
@@ -13,8 +28,14 @@ export function Header() {
           <li>
             <a href="#">Projects</a>
           </li>
+          <li>
+            <a href="/signout">Sign out</a>
+          </li>
         </ul>
       </nav>
+      <button className={styles.burger} onClick={() => setShowBar(true)}>
+        <AiOutlineMenu className={styles.burger_icon} />
+      </button>
     </header>
   );
 }
