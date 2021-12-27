@@ -1,36 +1,46 @@
-import React from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import Loading from "./loading";
 
 interface TypeRouteProps {
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 /**
  * If website is not authenticated, redirect to signin page or else render children
  */
 export const PrivateRoute: React.FC<TypeRouteProps> = (props) => {
-  return (
-    <>
-      {props.isAuthenticated ? (
-        props.children
-      ) : (
-        <Navigate replace to="/signin" />
-      )}
-    </>
+  const [render, setRender] = useState<React.ReactNode>(
+    <div className="center">
+      <Loading size={30} />
+    </div>
   );
+
+  useEffect(() => {
+    if (props.isLoading) return;
+    else if (props.isAuthenticated) setRender(props.children);
+    else setRender(<Navigate replace to="/signin" />);
+  }, [props.isLoading]);
+
+  return <>{render}</>;
 };
 
 /**
  * If website is already authenticated, redirect to home page or else render children
  */
 export const PublicRoute: React.FC<TypeRouteProps> = (props) => {
-  return (
-    <>
-      {!props.isAuthenticated ? (
-        props.children
-      ) : (
-        <Navigate replace to="/home" />
-      )}
-    </>
+  const [render, setRender] = useState<React.ReactNode>(
+    <div className="center">
+      <Loading size={30} />
+    </div>
   );
+
+  useEffect(() => {
+    if (props.isLoading) return;
+    else if (!props.isAuthenticated) setRender(props.children);
+    else setRender(<Navigate replace to="/home" />);
+  }, [props.isLoading]);
+
+  return <>{render}</>;
 };

@@ -120,7 +120,11 @@ const SignInPage = (props: SignInProp) => {
               </label>
 
               <button className={styles.submit} type="submit">
-                {isSubmitting ? <Loading size={20} /> : "Sign in"}
+                {isSubmitting ? (
+                  <Loading size={20} mainColor="white" secondaryColor="black" />
+                ) : (
+                  "Sign in"
+                )}
               </button>
             </form>
           )}

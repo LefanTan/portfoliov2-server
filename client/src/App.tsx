@@ -11,12 +11,14 @@ import Loading from "./components/loading";
 const App = () => {
   const authContext = useContext(AuthContext);
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       if (!authContext.user && !authContext.loggedIn) {
         const authed = await authContext.sync();
         setAuth(authed);
+        setLoading(false);
       }
     })();
   });
@@ -27,7 +29,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            <PrivateRoute isAuthenticated={auth}>
+            <PrivateRoute isLoading={loading} isAuthenticated={auth}>
               <HomePage />
             </PrivateRoute>
           }
@@ -35,7 +37,7 @@ const App = () => {
         <Route
           path="/home"
           element={
-            <PrivateRoute isAuthenticated={auth}>
+            <PrivateRoute isLoading={loading} isAuthenticated={auth}>
               <HomePage />
             </PrivateRoute>
           }
@@ -43,7 +45,7 @@ const App = () => {
         <Route
           path="/signin"
           element={
-            <PublicRoute isAuthenticated={auth}>
+            <PublicRoute isLoading={loading} isAuthenticated={auth}>
               <SignInPage />
             </PublicRoute>
           }
@@ -51,19 +53,12 @@ const App = () => {
         <Route
           path="/signup"
           element={
-            <PublicRoute isAuthenticated={auth}>
+            <PublicRoute isLoading={loading} isAuthenticated={auth}>
               <SignUpPage />
             </PublicRoute>
           }
         />
-        <Route
-          path="/signout"
-          element={
-            <PublicRoute isAuthenticated={auth}>
-              <SignInPage signout={true} />
-            </PublicRoute>
-          }
-        />
+        <Route path="/signout" element={<SignInPage signout={true} />} />
       </Routes>
     </BrowserRouter>
   );

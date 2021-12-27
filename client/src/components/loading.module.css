@@ -1,6 +1,6 @@
 .loading {
   border-radius: 50%;
-  border: 0.2rem solid rgba(255, 255, 255, 0.459);
+  border: 0.2rem solid rgb(109, 109, 109);
   border-top: 0.2rem solid white;
 
   animation: spin 2s linear infinite;

@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import FormError from "../formerror";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loading";
 
 const SignUpPage = () => {
   const authContext = useContext(AuthContext);
@@ -111,7 +112,11 @@ const SignUpPage = () => {
               )}
 
               <button className={styles.submit} type="submit">
-                Sign up
+                {isSubmitting ? (
+                  <Loading size={20} mainColor="white" secondaryColor="black" />
+                ) : (
+                  "Sign up"
+                )}
               </button>
             </form>
           )}
