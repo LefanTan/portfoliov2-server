@@ -8,7 +8,11 @@ export type AuthData = {
   user?: UserData;
   loggedIn: boolean;
   sync: () => Promise<boolean>;
-  signin: (username_email: string, password: string) => Promise<UserData>;
+  signin: (
+    username_email: string,
+    password: string,
+    remember: boolean
+  ) => Promise<UserData>;
   signup: (
     username: string,
     email: string,

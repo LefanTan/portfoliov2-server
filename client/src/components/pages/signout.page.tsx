@@ -13,7 +13,8 @@ const SignOutPage = () => {
       await authContext.signout();
       navigation("/signin", { replace: true });
     })();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authContext]);
 
   return <></>;
 };

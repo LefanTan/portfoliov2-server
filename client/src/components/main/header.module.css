@@ -7,7 +7,7 @@
   align-items: center;
 
   position: relative;
-  padding: 0.5rem;
+  padding: 0.75rem;
 }
 
 .h1 > strong {
@@ -60,6 +60,10 @@
   transform: scaleX(1);
 }
 
+.nav_links li:last-child {
+  margin-left: 2rem;
+}
+
 .burger {
   display: none;
 
@@ -103,7 +107,7 @@
   display: none;
 }
 
-@media screen and (orientation: portrait) and (max-width: 500px) {
+@media screen and (max-width: 500px) {
   .burger {
     display: initial;
   }
@@ -146,6 +150,10 @@
     justify-content: center;
 
     margin-right: 0px;
+  }
+
+  .nav_links li:last-child {
+    margin-left: 0rem;
   }
 
   .clear {

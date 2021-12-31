@@ -3,9 +3,10 @@ import { AuthContext } from "../../providers/auth.provider";
 import styles from "./signin.page.module.css";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import FormError from "../formerror";
+import FormError from "../widgets/formerror";
 import { useNavigate } from "react-router-dom";
-import Loading from "../loading";
+import Loading from "../widgets/loading";
+import MainButton from "../widgets/mainbutton";
 
 const SignUpPage = () => {
   const authContext = useContext(AuthContext);
@@ -33,7 +34,8 @@ const SignUpPage = () => {
         navigate("/home", { replace: true });
       }
     })();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authContext]);
 
   return (
     <div className={styles.body}>
@@ -48,15 +50,16 @@ const SignUpPage = () => {
             email: "",
             password: "",
           }}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values) => {
             try {
-              const res = await authContext.signup(
+              await authContext.signup(
                 values.username,
                 values.email,
                 values.password
               );
               navigate("/home", { replace: true });
             } catch (err: any) {
+              console.error(err.data);
               setSubmitError(err.data.message || err.data.errors[0].msg);
             }
           }}
@@ -111,13 +114,13 @@ const SignUpPage = () => {
                 <h3 className={styles.submit_error}>{submitError}</h3>
               )}
 
-              <button className={styles.submit} type="submit">
+              <MainButton type="submit">
                 {isSubmitting ? (
                   <Loading size={20} mainColor="white" secondaryColor="black" />
                 ) : (
                   "Sign up"
                 )}
-              </button>
+              </MainButton>
             </form>
           )}
         </Formik>

@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AuthProvider, { AuthContext } from "./providers/auth.provider";
+import { AuthContext } from "./providers/auth.provider";
 import "./style.css";
 import HomePage from "./components/pages/home.page";
 import SignInPage from "./components/pages/signin.page";
 import SignUpPage from "./components/pages/signup.page";
 import { PrivateRoute, PublicRoute } from "./components/routes";
-import Loading from "./components/loading";
 import SignOutPage from "./components/pages/signout.page";
 
 const App = () => {
@@ -25,6 +24,7 @@ const App = () => {
       setAuth(authed);
       setLoading(false);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authContext.loggedIn]);
 
   return (

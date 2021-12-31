@@ -22,44 +22,17 @@
   margin-top: 1rem;
 }
 
-.submit {
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-
-  font-weight: 400;
-  font-size: 1.25rem;
-
-  border: 0;
-  padding: 0.4rem;
-  margin-top: 1rem;
-
-  transition: 200ms;
-}
-
-.submit:hover {
-  transform: scale(1.075);
-}
-
-.submit:active {
-  transform: scale(1);
-}
-
 .checkbox {
-  display: initial;
-  width: min-content;
+  display: inline;
+  width: 20px;
 
   margin-right: 0.25rem;
 }
 
 .remember {
-  color: gray;
+  color: black;
   font-size: 0.8rem;
+  margin-top: 10px;
 }
 
 .h1 {

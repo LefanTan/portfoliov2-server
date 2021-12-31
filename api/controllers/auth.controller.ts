@@ -36,14 +36,14 @@ const signup = (req: UserAuthRequest, res: Response) => {
           })
           .then((roles) => {
             user.$set("roles", roles).then(() => {
-              // Token will expire in 30 days
+              // Token will expire in 5hrs
               let token = jwt.sign(
                 { id: user.id },
                 process.env.JWT_SECRET || authJwt.default_secret,
-                { expiresIn: "30d" }
+                { expiresIn: "5h" }
               );
               res.cookie("jwt", token, {
-                expires: new Date(Date.now() + 86400000 * 30),
+                maxAge: req.body.rememberMe ? 24 * 30 : 5 * 60 * 60 * 1000,
                 sameSite: true,
                 httpOnly: true, // prevents front-end javascript from accessing cookie
                 secure: false, // set true if using https
@@ -107,16 +107,16 @@ const signin = (req: UserAuthRequest, res: Response) => {
         });
       }
 
-      // Token will expire in 30 days
+      // Token will expire in 30 days or 5 hrs
       let token = jwt.sign(
         { id: user.id },
         process.env.JWT_SECRET || authJwt.default_secret,
-        { expiresIn: "30d" }
+        { expiresIn: req.body.rememberMe ? "30d" : "5h" }
       );
 
       user.$get("roles").then(() => {
         res.cookie("jwt", token, {
-          expires: new Date(Date.now() + 86400000 * 30),
+          maxAge: (req.body.rememberMe ? 24 * 30 : 5) * 60 * 60 * 1000,
           sameSite: true,
           httpOnly: true, // prevents front-end javascript from accessing cookie
           secure: false, // set true if using https

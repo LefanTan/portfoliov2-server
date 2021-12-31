@@ -8,6 +8,8 @@
 
 :root {
   --main: #f0efef;
+  --secondary: black;
+  --shadow-main: rgb(225, 233, 253);
   --error: rgb(202, 4, 4);
 }
 
@@ -25,18 +27,25 @@ main {
   flex: 1;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
   display: block;
   width: 100%;
+  min-height: 2rem;
 
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   margin-top: 0.25rem;
   border-radius: 10px;
 
+  resize: vertical;
   border: 1px solid #d8d8d8;
+  font-size: 0.85rem;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: black solid 1.5px;
 }
 

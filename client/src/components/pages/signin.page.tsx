@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/auth.provider";
 import styles from "./signin.page.module.css";
 import { Formik } from "formik";
-import Loading from "../loading";
+import Loading from "../widgets/loading";
 import * as Yup from "yup";
-import FormError from "../formerror";
+import FormError from "../widgets/formerror";
 import { useNavigate } from "react-router-dom";
+import MainButton from "../widgets/mainbutton";
 
 const SignInPage = () => {
   const authContext = useContext(AuthContext);
@@ -30,7 +31,8 @@ const SignInPage = () => {
         navigate("/home", { replace: true });
       }
     })();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authContext]);
 
   return (
     <div className={styles.body}>
@@ -43,12 +45,14 @@ const SignInPage = () => {
           initialValues={{
             username_email: "",
             password: "",
+            remember: false,
           }}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const res = await authContext.signin(
+              await authContext.signin(
                 values.username_email,
-                values.password
+                values.password,
+                values.remember
               );
 
               navigate("/home", { replace: true });
@@ -110,13 +114,13 @@ const SignInPage = () => {
                 Remember me for 30 days
               </label>
 
-              <button className={styles.submit} type="submit">
+              <MainButton type="submit">
                 {isSubmitting ? (
                   <Loading size={20} mainColor="white" secondaryColor="black" />
                 ) : (
                   "Sign in"
                 )}
-              </button>
+              </MainButton>
             </form>
           )}
         </Formik>

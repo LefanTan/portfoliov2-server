@@ -1,0 +1,39 @@
+.photo_video_icon {
+  display: block;
+  width: 100%;
+}
+
+.label {
+  margin: 0;
+  padding: 0;
+  margin-top: 0.25rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.add_media_button {
+  margin-top: 0px;
+  padding: 0.5rem 0.75rem;
+
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--secondary);
+  background-color: var(--main);
+
+  cursor: pointer;
+  border-radius: 10px;
+
+  transition: 200ms;
+}
+
+.add_media_button:hover {
+  background-color: rgb(212, 212, 212);
+}
+
+.add_media_button:active {
+  transform: translateY(2px);
+}

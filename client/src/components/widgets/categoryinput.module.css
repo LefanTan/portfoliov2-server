@@ -1,0 +1,49 @@
+.container {
+  border-radius: 10px;
+  border: 1px solid #d8d8d8;
+
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
+.container:focus {
+  outline: black solid 1.5px;
+}
+
+input[type="text"].input {
+  border: none;
+  outline: none;
+  padding: 0rem;
+  margin-top: 0px;
+  min-height: 0px;
+
+  min-width: 100%;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.container button {
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.35rem;
+  background-color: var(--main);
+
+  border: none;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.strong {
+  font-weight: 500;
+}

@@ -32,7 +32,7 @@ const AuthProvider: React.FC = ({ children }) => {
         setLoggedIn(true);
         return true;
       } catch (err) {
-        console.error(err);
+        console.log("Token outdated or doesn't exist!");
       }
     }
     return false;
@@ -44,12 +44,17 @@ const AuthProvider: React.FC = ({ children }) => {
         user: user,
         loggedIn: loggedIn,
         sync: sync,
-        signin: async (username_email: string, password: string) => {
+        signin: async (
+          username_email: string,
+          password: string,
+          remember: boolean
+        ) => {
           try {
             const res = await axiosInstance.post("/auth/signin", {
               username: username_email,
               email: username_email,
               password: password,
+              rememberMe: remember,
             });
 
             const user = res.data.user as UserData;

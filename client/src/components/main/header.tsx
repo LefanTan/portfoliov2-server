@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./header.module.css";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdOutlineClear } from "react-icons/md";
-import { AuthContext } from "../providers/auth.provider";
 
 export function Header() {
-  const authContext = useContext(AuthContext);
   const [showNavBar, setShowBar] = useState(false);
 
   return (
@@ -23,7 +21,7 @@ export function Header() {
         </button>
         <ul className={styles.nav_links}>
           <li>
-            <a href="#">Profile</a>
+            <a href="#profile">Profile</a>
           </li>
           <li>
             <a href="#">Projects</a>

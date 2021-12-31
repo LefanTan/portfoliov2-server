@@ -1,6 +1,6 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import Loading from "./loading";
+import Loading from "./widgets/loading";
 
 interface TypeRouteProps {
   isAuthenticated: boolean;

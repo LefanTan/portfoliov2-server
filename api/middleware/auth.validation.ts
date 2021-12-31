@@ -17,7 +17,7 @@ const checkDuplicateUsernameOrEmail = check("username").custom(
       })
       .then((user) => {
         if (user) {
-          throw Promise.reject("Username already in use");
+          throw new Error("Username already in use");
         }
 
         db.user
@@ -28,7 +28,7 @@ const checkDuplicateUsernameOrEmail = check("username").custom(
           })
           .then((email) => {
             if (email) {
-              throw Promise.reject("Email already in use");
+              throw new Error("Email already in use");
             }
           });
       });
@@ -48,7 +48,7 @@ export const signupValidate = [
           value
         )
       ) {
-        throw Promise.reject();
+        return Promise.reject("Not a valid email");
       }
       return true;
     })
