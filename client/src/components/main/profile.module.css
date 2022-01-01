@@ -15,13 +15,22 @@
   padding-top: 0.25rem;
 }
 
+.form > p:first-child {
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+
 .form > .row > div:first-child {
   margin-right: 0.5rem;
+  min-width: 60%;
 }
 
 .form > .row:first-of-type {
+  min-height: 5.5rem;
   width: 100%;
   flex-wrap: nowrap;
+  align-items: initial;
   overflow-x: auto;
   padding: 0.25rem 0.5rem 0.5rem 0.1rem;
 }
@@ -32,6 +41,7 @@
 
 .row {
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -42,6 +52,11 @@
 
 .row > div:first-child {
   margin-right: 0.5rem;
+}
+
+.row_center {
+  display: flex;
+  align-items: center;
 }
 
 input[type="file"] {
@@ -77,37 +92,4 @@ input[type="file"] {
 
 #resume_title + .row {
   align-items: flex-start;
-}
-
-.row .media_container {
-  flex: 0;
-  display: flex;
-  align-items: center;
-
-  margin-right: 0.5rem;
-}
-
-.image_button {
-  width: 4.75rem;
-  aspect-ratio: 1/1;
-
-  border: none;
-  border-radius: 10px;
-  overflow: hidden;
-
-  cursor: pointer;
-  transition: 200ms;
-}
-
-.image_button:focus {
-  outline: black solid 1.5px;
-}
-
-.image_button:hover {
-  filter: brightness(0.75);
-}
-
-.image_button img {
-  width: 100%;
-  height: 100%;
 }

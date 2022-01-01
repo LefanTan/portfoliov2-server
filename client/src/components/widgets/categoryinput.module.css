@@ -42,6 +42,13 @@ input[type="text"].input {
 
   font-size: 0.85rem;
   white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+}
+
+.container button:hover {
+  filter: brightness(0.9);
 }
 
 .strong {

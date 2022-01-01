@@ -1,4 +1,5 @@
 import { check, oneOf } from "express-validator";
+import { Op } from "sequelize";
 import db from "../config/db.config";
 
 const checkIfRolesExisted = oneOf([
@@ -8,29 +9,22 @@ const checkIfRolesExisted = oneOf([
 
 const checkDuplicateUsernameOrEmail = check("username").custom(
   (username, { req }) => {
-    // Check if username exist
+    // Check if username or email exist
     return db.user
       .findOne({
         where: {
-          username: username || null,
+          [Op.or]: {
+            username: username || null,
+            email: req.body.email || null,
+          },
         },
       })
       .then((user) => {
         if (user) {
-          throw new Error("Username already in use");
+          if (user.email === req.body.email)
+            throw new Error("Email already in use");
+          else throw new Error("Username already in use");
         }
-
-        db.user
-          .findOne({
-            where: {
-              email: req.body.email || null,
-            },
-          })
-          .then((email) => {
-            if (email) {
-              throw new Error("Email already in use");
-            }
-          });
       });
   }
 );

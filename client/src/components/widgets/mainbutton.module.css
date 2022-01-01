@@ -19,11 +19,11 @@
 }
 
 .button:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .button:focus {
-  border: 2px solid var(--main);
+  outline: 2px solid rgb(120, 212, 255);
 }
 
 .button:active {

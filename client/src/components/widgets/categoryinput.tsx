@@ -1,15 +1,25 @@
 import { useCallback, useEffect, useState } from "react";
+import { FaRegTimesCircle } from "react-icons/fa";
 import styles from "./categoryinput.module.css";
 
-const CategoryInput = () => {
+interface CategoryInputProps {
+  onChange: (list: string[]) => void;
+  values: string[];
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
+  id?: string;
+}
+
+const CategoryInput: React.FC<CategoryInputProps> = (props) => {
   const [value, setValue] = useState("");
   const [isFocus, setIsFocus] = useState(false);
-  const [category, setCategory] = useState<string[]>([]);
+  const [category, setCategory] = useState<string[]>(props.values);
 
   const keyDownHandler = useCallback(
     (event: KeyboardEvent) => {
       if (isFocus) {
         if (event.key === "Enter" && value !== "") {
+          event.preventDefault();
           setCategory([...category, value.trim()]);
           setValue("");
         } else if (
@@ -33,6 +43,10 @@ const CategoryInput = () => {
   };
 
   useEffect(() => {
+    props.onChange(category);
+  }, [category]);
+
+  useEffect(() => {
     window.addEventListener("keydown", keyDownHandler);
 
     return () => window.removeEventListener("keydown", keyDownHandler);
@@ -40,12 +54,22 @@ const CategoryInput = () => {
 
   return (
     <div
+      aria-labelledby={props.ariaLabelledBy}
+      aria-label={props.ariaLabel}
+      role="group"
+      id={props.id}
       className={styles.container}
       style={isFocus ? focusOutline : undefined}
     >
-      {category.map((item, i) => (
-        <button onClick={() => deleteItem(i)} type="button" key={item + i}>
-          <strong className={styles.strong}>x</strong> {item}
+      {props.values.map((item, i) => (
+        <button
+          aria-label="category-button"
+          onClick={() => deleteItem(i)}
+          type="button"
+          key={item + i}
+        >
+          <FaRegTimesCircle size={12} />
+          &nbsp;{item}
         </button>
       ))}
       <input
