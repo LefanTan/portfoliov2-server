@@ -1,6 +1,7 @@
 import {
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   Model,
   Table,
@@ -15,14 +16,14 @@ export default class Profile extends Model {
   @Column
   lastName: string;
 
-  @Column
-  profilePhotoUrl: string;
+  @Column(DataType.TEXT)
+  mainMediaUrl: string;
 
-  @Column
-  otherPhotosUrl: string;
+  @Column(DataType.JSON)
+  mediaUrls: string[];
 
-  @Column
-  resumePdfUrl: string;
+  @Column(DataType.TEXT)
+  resumeUrl: string;
 
   @Column
   aboutMe: string;

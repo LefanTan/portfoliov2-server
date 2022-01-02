@@ -7,6 +7,7 @@ import authJwt from "../middleware/authJwt";
 import Role from "../models/role.model";
 import User from "../models/user.model";
 import { UserAuthRequest } from "../types/request";
+import moment from "moment";
 
 const bcrypt = require("bcryptjs");
 
@@ -43,7 +44,9 @@ const signup = (req: UserAuthRequest, res: Response) => {
                 { expiresIn: "5h" }
               );
               res.cookie("jwt", token, {
-                maxAge: req.body.rememberMe ? 24 * 30 : 5 * 60 * 60 * 1000,
+                maxAge: req.body.rememberMe
+                  ? moment.duration(30, "days").asMilliseconds()
+                  : moment.duration(5, "hours").asMilliseconds(),
                 sameSite: true,
                 httpOnly: true, // prevents front-end javascript from accessing cookie
                 secure: false, // set true if using https
@@ -116,7 +119,9 @@ const signin = (req: UserAuthRequest, res: Response) => {
 
       user.$get("roles").then(() => {
         res.cookie("jwt", token, {
-          maxAge: (req.body.rememberMe ? 24 * 30 : 5) * 60 * 60 * 1000,
+          maxAge: req.body.rememberMe
+            ? moment.duration(30, "days").asMilliseconds()
+            : moment.duration(5, "hours").asMilliseconds(),
           sameSite: true,
           httpOnly: true, // prevents front-end javascript from accessing cookie
           secure: false, // set true if using https

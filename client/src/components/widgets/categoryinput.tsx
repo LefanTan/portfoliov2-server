@@ -43,8 +43,13 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
   };
 
   useEffect(() => {
-    props.onChange(category);
+    if (props.values !== category) props.onChange(category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
+
+  useEffect(() => {
+    setCategory(props.values);
+  }, [props.values]);
 
   useEffect(() => {
     window.addEventListener("keydown", keyDownHandler);

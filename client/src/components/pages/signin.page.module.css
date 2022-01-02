@@ -57,10 +57,3 @@
 .direct:hover {
   text-decoration: underline;
 }
-
-.submit_error {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  margin-bottom: -0.5rem;
-  color: var(--error);
-}

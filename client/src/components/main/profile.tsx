@@ -1,4 +1,4 @@
-import React, { Ref, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import CategoryInput from "../widgets/categoryinput";
 import styles from "./profile.module.css";
 import AddMediaButton from "../widgets/addmediabutton";
@@ -6,15 +6,35 @@ import MainButton from "../widgets/mainbutton";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import MediaDraggable from "../widgets/mediadraggable";
 import { Formik } from "formik";
+import Loading from "../widgets/loading";
+import {
+  getProfile,
+  updateOrCreateProfile,
+} from "../../services/profile.service";
+import { AuthContext } from "../../providers/auth.provider";
+import { ProfileData } from "../../types/profile.type";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Profile = () => {
+  const authContext = useContext(AuthContext);
   let resumeFileInputRef = React.useRef<HTMLInputElement>(null);
 
+  const [resumeUrl, setResumeUrl] = useState<string>("");
   const [resumeFile, setResumeFile] = useState<File>();
   const [medias, setMedia] = useState<File[]>();
   const [mainMedia, setMainMedia] = useState<File>();
-  const [categories, setCategories] = useState<string[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
 
+  // For the profile data fetched from API, purely for displaying initial values
+  const [profileData, setProfileData] = useState<ProfileData>(
+    {} as ProfileData
+  );
+
+  const [submitError, setSubmitError] = useState("");
+
+  /**
+   * Handle resume input file change
+   */
   const handleFileChange = useCallback(
     (type: string) => {
       if (type === "resume" && resumeFileInputRef.current?.files) {
@@ -24,6 +44,10 @@ const Profile = () => {
     [resumeFileInputRef]
   );
 
+  /**
+   * Add media
+   * @param files list of files to add as media
+   */
   const addMedia = (files: FileList) => {
     //TODO: Limit file size
 
@@ -34,12 +58,19 @@ const Profile = () => {
     if (typeof mainMedia == "undefined") setMainMedia(temp[0]);
   };
 
+  /**
+   * Delete media
+   * @param toDelete file to delete from media
+   */
   const deleteMedia = (toDelete: File) => {
     if (mainMedia === toDelete) setMainMedia(undefined);
 
     medias && setMedia(medias.filter((media) => media !== toDelete));
   };
 
+  /**
+   * End drag handler for React-beautiful-dnd
+   */
   const onDragEndHandler = (result: DropResult) => {
     if (medias && result.destination) {
       const temp = [...Array.from(medias)];
@@ -49,6 +80,9 @@ const Profile = () => {
     }
   };
 
+  /**
+   * Subscribe to file changes for Resume
+   */
   useEffect(() => {
     let current = resumeFileInputRef.current;
 
@@ -62,22 +96,48 @@ const Profile = () => {
     }
   }, [resumeFileInputRef, handleFileChange]);
 
+  /**
+   * Init fetched data for the form
+   */
+  useEffect(() => {
+    if (authContext.user)
+      getProfile(authContext.user.id).then((data) => {
+        setProfileData(data);
+        setSkills(data.skills.split(","));
+
+        let matches = data.resumeUrl.match(
+          /(?<=(\/\d+\/))[\W\S_]+(\.\w+)(?=(\?Google))/g
+        );
+        setResumeUrl(matches ? matches[0] : "");
+      });
+  }, [authContext.user]);
+
+  // console.log(profileData);
   return (
     <section id="profile" className={styles.section}>
       <h1 className={styles.title}>Profile</h1>
       <Formik
+        enableReinitialize
         initialValues={{
-          firstName: "",
-          lastName: "",
-          categories: categories,
-          aboutMe: "",
-          linkedin: "",
-          github: "",
-          resumeUrl: null,
-          mediaUrls: null,
+          ...profileData,
         }}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={async (values) => {
+          const data = values as ProfileData;
+
+          data.skills = skills.toString();
+          data.mainMedia = mainMedia;
+          data.resume = resumeFile;
+          data.medias = medias?.filter((media) => media !== mainMedia);
+
+          try {
+            await updateOrCreateProfile(
+              authContext.user?.id!,
+              values as ProfileData
+            );
+          } catch (err: any) {
+            console.error(err);
+            setSubmitError(err.data.message || err.data.errors[0].msg);
+          }
         }}
       >
         {({
@@ -126,7 +186,7 @@ const Profile = () => {
                       id="firstName"
                       type="text"
                       onChange={handleChange}
-                      value={values.firstName}
+                      value={values.firstName || ""}
                     />
                   </div>
                   <div>
@@ -136,7 +196,7 @@ const Profile = () => {
                       id="lastName"
                       type="text"
                       onChange={handleChange}
-                      value={values.lastName}
+                      value={values.lastName || ""}
                     />
                   </div>
                 </div>
@@ -148,11 +208,8 @@ const Profile = () => {
                   <CategoryInput
                     id="skillsInput"
                     ariaLabelledBy="skills_label"
-                    values={categories}
-                    onChange={(categories) => {
-                      values.categories = categories;
-                      setCategories(categories);
-                    }}
+                    values={skills}
+                    onChange={(skills) => setSkills(skills)}
                   />
                 </div>
 
@@ -162,7 +219,7 @@ const Profile = () => {
                     id="aboutme"
                     name="aboutMe"
                     onChange={handleChange}
-                    value={values.aboutMe}
+                    value={values.aboutMe || ""}
                   />
                 </div>
               </div>
@@ -174,7 +231,7 @@ const Profile = () => {
                     name="github"
                     type="text"
                     onChange={handleChange}
-                    value={values.github}
+                    value={values.github || ""}
                   />
                 </div>
 
@@ -185,7 +242,7 @@ const Profile = () => {
                     name="linkedin"
                     type="text"
                     onChange={handleChange}
-                    value={values.linkedin}
+                    value={values.linkedin || ""}
                   />
                 </div>
 
@@ -202,15 +259,30 @@ const Profile = () => {
                       name="resume"
                       id="resume"
                     />
-                    <p>{resumeFile?.name}</p>
+                    <button
+                      type="button"
+                      className={styles.trash_button}
+                      onClick={() => {
+                        setResumeUrl("");
+                        setResumeFile(undefined);
+                      }}
+                    >
+                      <FaTrashAlt size={18} />
+                    </button>
+                    <p>{resumeUrl}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className={styles.row}>
-              <MainButton type="submit">Save</MainButton>
+              <MainButton type="submit">
+                {isSubmitting ? <Loading size={20} /> : "Save"}
+              </MainButton>
             </div>
+            {submitError !== "" && (
+              <h3 className="submit-error">{submitError}</h3>
+            )}
           </form>
         )}
       </Formik>

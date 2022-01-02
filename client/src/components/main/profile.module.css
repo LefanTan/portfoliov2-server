@@ -56,6 +56,7 @@
 
 .row_center {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -92,4 +93,21 @@ input[type="file"] {
 
 #resume_title + .row {
   align-items: flex-start;
+}
+
+.trash_button {
+  display: flex;
+  align-items: center;
+
+  background-color: transparent;
+  color: black;
+  border: none;
+
+  margin-right: 0.25rem;
+
+  transition: 200ms;
+}
+
+.trash_button:hover {
+  transform: scale(1.1);
 }

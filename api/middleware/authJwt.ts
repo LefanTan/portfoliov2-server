@@ -5,6 +5,10 @@ import { UserAuthRequest } from "../types/request";
 
 const default_secret = (Math.random() * 1000).toString();
 
+/**
+ * Verify the token (from cookie or header)
+ * @param req
+ */
 const verifyToken = (
   req: UserAuthRequest,
   res: Response,
@@ -43,9 +47,27 @@ const isAdmin = (req: UserAuthRequest, res: Response, next: NextFunction) => {
   });
 };
 
+/**
+ * Verify the id from the token is matching the user id from the request
+ * NOTE: Needs to be placed after verifyToken to work
+ */
+const verifyTokenIdMatching = (
+  req: UserAuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.userId != req.params.id) {
+    return res
+      .status(403)
+      .send({ error: "Token user id does not match requested id" });
+  }
+  next();
+};
+
 const authJwt = {
   isAdmin,
   verifyToken,
+  verifyTokenIdMatching,
   default_secret,
 };
 export default authJwt;

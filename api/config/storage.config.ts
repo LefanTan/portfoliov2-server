@@ -1,42 +1,59 @@
-import { DownloadOptions, Storage } from "@google-cloud/storage";
+import { Bucket, DownloadOptions, Storage } from "@google-cloud/storage";
+import moment from "moment";
 
 class PortfolioStorage {
   storage = new Storage();
-  profileBucketName = "profile-bucket";
-  projectBucketName = "project-bucket";
-
-  constructor() {
-    // If buckets not created, create one
-    if (!this.storage.bucket(this.profileBucketName)) {
-      this.createBucket(this.profileBucketName);
-    }
-
-    if (!this.storage.bucket(this.projectBucketName)) {
-      this.createBucket(this.projectBucketName);
-    }
-  }
+  profileBucket = this.storage.bucket("profile-bucket");
+  projectBucket = this.storage.bucket("projects-bucket");
 
   async createBucket(bucketName: string) {
-    await this.storage.createBucket(bucketName);
-    console.log(`Bucket ${bucketName} successfully created`);
+    try {
+      await this.storage.createBucket(bucketName);
+      console.log(`Bucket ${bucketName} successfully created`);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  async uploadFile(bucketName: string, path: string, fileName: string) {
-    await this.storage
-      .bucket(bucketName)
-      .upload(path, { destination: fileName });
+  async uploadFile(
+    bucket: Bucket,
+    path: string,
+    fileName: string
+  ): Promise<string> {
+    try {
+      const res = await bucket.upload(path, { destination: fileName });
+      console.log(
+        `File - {${path + fileName}} successfully upload to ${bucket.name}`
+      );
 
-    console.log(
-      `File - {${path + fileName}} successfully upload to ${bucketName}`
-    );
+      return res[0]
+        .getSignedUrl({
+          action: "read",
+          // Wonky way to create an indefinite url
+          // (which just makes it a public url)
+          // OPTIONAL TODO: Create a signed url linked to JWT Token
+          expires: moment().add(100, "years").format("DD-MM-YYYY"),
+        })
+        .then((data) => data[0])
+        .catch(() => {
+          throw Error("Getting signed url failed");
+        });
+    } catch (err) {
+      console.error(err);
+      throw Error("Upload failed");
+    }
   }
 
   async downloadFile(
-    bucketName: string,
+    bucket: Bucket,
     filePath: string,
     options: DownloadOptions
   ) {
-    await this.storage.bucket(bucketName).file(filePath).download(options);
+    try {
+      await bucket.file(filePath).download(options);
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

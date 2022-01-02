@@ -1,8 +1,7 @@
 # Setup
 
-1. Download the service account file for Google Storage client.
-   - For Linux: `export GOOGLE_APPLICATION_CREDENTIALS=KEY_PATH/{fileName.json}`
-   - For Window CMD: `set GOOGLE_APPLICATION_CREDENTIALS=KEY_PATH/{fileName.json}`
+1. Download the service account file for Google Storage client and place it in ./api
+   - name the json file `service-account.json`
 
 2. Make sure Docker CLI and Docker-Compose is installed
    - Tested for Docker v20.10.7 and Docker-Compose v1.29.2

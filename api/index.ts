@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { main } from "./main";
 import db from "./config/db.config";
+import portfolioStorage from "./config/storage.config";
 
 require("dotenv").config();
 
@@ -14,9 +15,16 @@ main().listen(PORT, () => {
 
 // force = true only during development, as it drops all data
 // use alter?
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
+db.sequelize.sync({ force: true }).then(async () => {
+  console.log("Dropped and Resync DB");
+
+  await portfolioStorage.profileBucket.deleteFiles();
+  await portfolioStorage.projectBucket.deleteFiles();
+  console.log("Purged all cloud storage files");
+
   init();
+
+  console.log("Server ready");
 });
 
 // seed some data

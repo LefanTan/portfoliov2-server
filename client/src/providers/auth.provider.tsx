@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import axiosInstance from "../services/axiosInstance";
-import { AuthData, UserData } from "../types/auth.data";
+import { AuthData, UserData } from "../types/auth.type";
 
 export const AuthContext = React.createContext<AuthData>({} as AuthData);
 

@@ -14,6 +14,8 @@ services:
     ports: 
       #first 3000 is the port exposed on host, the second one is port exposed to other docker containers
       - "3000:3001"
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: service-account.json
   test_api:
     depends_on:
       - mysql
@@ -31,6 +33,7 @@ services:
     ports:
       - "3002:3002"
     environment: 
+      GOOGLE_APPLICATION_CREDENTIALS: service-account.json
       PORT: 3002
       DB_LOGGING: "false"
       NODE_ENV: test

@@ -14,8 +14,16 @@ export default userRoutes;
 userRoutes.use(authJwt.verifyToken);
 
 userRoutes.get("/", userController.userBoard);
-userRoutes.get("/:id", userController.getUser);
-userRoutes.put("/:id", updateUserValidate, userController.updateUser);
-userRoutes.delete("/:id", userController.deleteUser);
+userRoutes.get("/:id", authJwt.verifyTokenIdMatching, userController.getUser);
+userRoutes.put(
+  "/:id",
+  [...updateUserValidate, authJwt.verifyTokenIdMatching],
+  userController.updateUser
+);
+userRoutes.delete(
+  "/:id",
+  authJwt.verifyTokenIdMatching,
+  userController.deleteUser
+);
 
 //userRoutes.post('/signout/:id), userController.signout);

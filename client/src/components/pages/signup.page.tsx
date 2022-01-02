@@ -111,7 +111,7 @@ const SignUpPage = () => {
               <FormError name="password" />
 
               {submitError !== "" && (
-                <h3 className={styles.submit_error}>{submitError}</h3>
+                <h3 className="submit-error">{submitError}</h3>
               )}
 
               <MainButton type="submit">
