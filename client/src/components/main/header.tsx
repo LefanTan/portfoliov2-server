@@ -24,7 +24,7 @@ export function Header() {
             <a href="#profile">Profile</a>
           </li>
           <li>
-            <a href="#">Projects</a>
+            <a href="#projects">Projects</a>
           </li>
           <li>
             <a href="/signout">Sign out</a>

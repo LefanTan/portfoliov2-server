@@ -114,7 +114,7 @@ const SignInPage = () => {
                 Remember me for 30 days
               </label>
 
-              <MainButton type="submit">
+              <MainButton type="submit" style={{ width: "100%" }}>
                 {isSubmitting ? (
                   <Loading size={20} mainColor="white" secondaryColor="black" />
                 ) : (

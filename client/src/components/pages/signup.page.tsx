@@ -114,7 +114,7 @@ const SignUpPage = () => {
                 <h3 className="submit-error">{submitError}</h3>
               )}
 
-              <MainButton type="submit">
+              <MainButton type="submit" style={{ width: "100%" }}>
                 {isSubmitting ? (
                   <Loading size={20} mainColor="white" secondaryColor="black" />
                 ) : (

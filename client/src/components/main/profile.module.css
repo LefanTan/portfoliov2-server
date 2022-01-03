@@ -12,7 +12,7 @@
 }
 
 .form {
-  padding-top: 0.25rem;
+  margin-top: 0.75rem;
 }
 
 .form > p:first-child {
@@ -109,5 +109,5 @@ input[type="file"] {
 }
 
 .trash_button:hover {
-  transform: scale(1.1);
+  color: var(--delete);
 }

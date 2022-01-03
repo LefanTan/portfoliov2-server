@@ -17,6 +17,10 @@ export type ProfileData = {
   mediaUrls?: string[];
 };
 
+export type ProjectData = {
+  name: string;
+};
+
 /**
  * url - url of media
  */

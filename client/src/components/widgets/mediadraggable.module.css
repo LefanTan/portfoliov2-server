@@ -73,5 +73,5 @@
 }
 
 .remove_button:hover {
-  color: rgb(255, 81, 75);
+  color: var(--delete);
 }

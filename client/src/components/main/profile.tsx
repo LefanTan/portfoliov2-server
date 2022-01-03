@@ -327,9 +327,12 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className={styles.row}>
-              <MainButton type="submit">
+            <div className={styles.row_center}>
+              <MainButton type="submit" style={{ marginRight: "0.5rem" }}>
                 {isSubmitting ? <Loading size={20} /> : "Save"}
+              </MainButton>
+              <MainButton type="reset" contrast>
+                Reset
               </MainButton>
             </div>
             {submitError !== "" && (

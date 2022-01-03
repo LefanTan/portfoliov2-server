@@ -1,8 +1,7 @@
 .button {
-  width: 100%;
-
   display: flex;
   justify-content: center;
+  align-items: center;
 
   background-color: black;
   color: white;
@@ -12,8 +11,9 @@
   font-size: 1.25rem;
 
   border: 0;
-  padding: 0.4rem;
+  padding: 0.25rem 0.75rem;
   margin-top: 1rem;
+  outline: 2px solid black;
 
   transition: 200ms;
 }
@@ -28,4 +28,9 @@
 
 .button:active {
   transform: scale(1);
+}
+
+.contrast {
+  background-color: var(--main);
+  color: black;
 }
