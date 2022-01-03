@@ -1,4 +1,3 @@
-import { createIf } from "typescript";
 import { ProfileData } from "../types/profile.type";
 import axiosInstance from "./axiosInstance";
 

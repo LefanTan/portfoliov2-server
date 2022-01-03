@@ -44,7 +44,13 @@ const updateProfile = (req: Request, res: Response) => {
       }
 
       let mainMediaUrl: string = req.body.mainMediaUrl || "";
-      let mediaUrls: string[] = req.body.mediaUrls ? [req.body.mediaUrls] : [];
+
+      // Normalize req.body.mediaUrls to be an array
+      let mediaUrls: string[] = req.body.mediaUrls
+        ? Array.isArray(req.body.mediaUrls)
+          ? req.body.mediaUrls
+          : [req.body.mediaUrls]
+        : [];
       let resumeUrl: string = req.body.resumeUrl || "";
 
       if (req.files?.mainMedia && !Array.isArray(req.files?.mainMedia)) {
@@ -105,7 +111,7 @@ const updateProfile = (req: Request, res: Response) => {
           }
         });
       }
-
+      console.log(resumeUrl);
       profile
         .update({
           firstName: req.body.firstName,

@@ -117,21 +117,25 @@ const Profile = () => {
           data.resumeUrl && getFileNameFromUrl(data.resumeUrl, true);
         setResume({
           name: resumeFileName || "",
-        });
-        setMainMedia({
-          name: data.mainMediaUrl || "",
+          url: data.resumeUrl,
         });
 
-        let parsedMedia: Media[] =
+        let mainMediaFileName =
+          data.mainMediaUrl && getFileNameFromUrl(data.mainMediaUrl, true);
+        let mainMediaObject: Media = {
+          name: mainMediaFileName || "",
+          url: data.mainMediaUrl,
+        };
+        setMainMedia(mainMediaObject);
+
+        let parsedMedia: Media[] = [];
+        if (data.mainMediaUrl) parsedMedia.push(mainMediaObject);
+
+        parsedMedia = parsedMedia.concat(
           data.mediaUrls?.map((url) => {
             return { url: url, name: getFileNameFromUrl(url, true) } as Media;
-          }) ?? [];
-
-        if (data.mainMediaUrl)
-          parsedMedia?.push({
-            name: getFileNameFromUrl(data.mainMediaUrl, true),
-            url: data.mainMediaUrl,
-          });
+          }) ?? []
+        );
 
         setMedia(parsedMedia);
       });
@@ -218,7 +222,10 @@ const Profile = () => {
                           key={media.name + i}
                           draggableId={media.name + i}
                           index={i}
-                          onClick={() => setMainMedia(media)}
+                          onClick={() => {
+                            if (media !== mainMedia) setMainMedia(media);
+                            else setMainMedia({ name: "" });
+                          }}
                           onDeleteClick={() => deleteMedia(media)}
                         />
                       ))}
