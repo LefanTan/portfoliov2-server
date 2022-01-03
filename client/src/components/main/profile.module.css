@@ -87,8 +87,8 @@ input[type="file"] {
   transform: scale(1.05);
 }
 
-.browse:focus-within {
-  outline: var(--main) thick;
+.browse:active {
+  outline: 2px solid var(--focus);
 }
 
 #resume_title + .row {

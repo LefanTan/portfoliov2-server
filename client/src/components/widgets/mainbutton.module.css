@@ -23,7 +23,7 @@
 }
 
 .button:focus {
-  outline: 2px solid rgb(120, 212, 255);
+  outline: 2px solid var(--focus);
 }
 
 .button:active {

@@ -7,6 +7,11 @@ import SignInPage from "./components/pages/signin.page";
 import SignUpPage from "./components/pages/signup.page";
 import { PrivateRoute, PublicRoute } from "./components/routes";
 import SignOutPage from "./components/pages/signout.page";
+import NotFoundPage from "./components/pages/notfound.page";
+
+/**
+ * TODO: Use React.lazy and React.suspense in the future!
+ */
 
 const App = () => {
   const authContext = useContext(AuthContext);
@@ -63,6 +68,7 @@ const App = () => {
           }
         />
         <Route path="/signout" element={<SignOutPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
