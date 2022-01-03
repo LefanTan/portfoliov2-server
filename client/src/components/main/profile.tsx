@@ -8,24 +8,29 @@ import MediaDraggable from "../widgets/mediadraggable";
 import { Formik } from "formik";
 import Loading from "../widgets/loading";
 import {
+  getFileNameFromUrl,
   getProfile,
   updateOrCreateProfile,
 } from "../../services/profile.service";
 import { AuthContext } from "../../providers/auth.provider";
-import { ProfileData } from "../../types/profile.type";
+import { Media, ProfileData } from "../../types/profile.type";
 import { FaTrashAlt } from "react-icons/fa";
 
 const Profile = () => {
   const authContext = useContext(AuthContext);
   let resumeFileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const [resumeUrl, setResumeUrl] = useState<string>("");
-  const [resumeFile, setResumeFile] = useState<File>();
-  const [medias, setMedia] = useState<File[]>();
-  const [mainMedia, setMainMedia] = useState<File>();
+  /**
+   * media.url => name of the file or the url source
+   * If url === "", it means that a Media is not set/empty
+   */
+  const [resume, setResume] = useState<Media>({ name: "" });
+  const [medias, setMedia] = useState<Media[]>([]);
+  const [mainMedia, setMainMedia] = useState<Media>({ name: "" });
   const [skills, setSkills] = useState<string[]>([]);
 
   // For the profile data fetched from API, purely for displaying initial values
+  // Do not change this from within the form
   const [profileData, setProfileData] = useState<ProfileData>(
     {} as ProfileData
   );
@@ -38,7 +43,8 @@ const Profile = () => {
   const handleFileChange = useCallback(
     (type: string) => {
       if (type === "resume" && resumeFileInputRef.current?.files) {
-        setResumeFile(resumeFileInputRef.current?.files[0]);
+        let file = resumeFileInputRef.current?.files[0];
+        setResume({ file, name: file.name });
       }
     },
     [resumeFileInputRef]
@@ -52,18 +58,20 @@ const Profile = () => {
     //TODO: Limit file size
 
     const temp = medias ? [...Array.from(medias)] : [];
-    Array.from(files).forEach((file) => temp.push(file));
+    Array.from(files).forEach((file) => {
+      if (medias.find((media) => media.name === file.name)) {
+        alert(`File ${file.name} already added`);
+      } else temp.push({ file, name: file.name });
+    });
     setMedia(temp);
-
-    if (typeof mainMedia == "undefined") setMainMedia(temp[0]);
   };
 
   /**
    * Delete media
-   * @param toDelete file to delete from media
+   * @param toDelete specific media to delete
    */
-  const deleteMedia = (toDelete: File) => {
-    if (mainMedia === toDelete) setMainMedia(undefined);
+  const deleteMedia = (toDelete: Media) => {
+    if (mainMedia === toDelete) setMainMedia({ name: "" });
 
     medias && setMedia(medias.filter((media) => media !== toDelete));
   };
@@ -103,16 +111,36 @@ const Profile = () => {
     if (authContext.user)
       getProfile(authContext.user.id).then((data) => {
         setProfileData(data);
-        setSkills(data.skills.split(","));
+        setSkills(data.skills?.split(",") ?? []);
 
-        let matches = data.resumeUrl.match(
-          /(?<=(\/\d+\/))[\W\S_]+(\.\w+)(?=(\?Google))/g
-        );
-        setResumeUrl(matches ? matches[0] : "");
+        let resumeFileName =
+          data.resumeUrl && getFileNameFromUrl(data.resumeUrl, true);
+        setResume({
+          name: resumeFileName || "",
+        });
+        setMainMedia({
+          name: data.mainMediaUrl || "",
+        });
+
+        let parsedMedia: Media[] =
+          data.mediaUrls?.map((url) => {
+            return { url: url, name: getFileNameFromUrl(url, true) } as Media;
+          }) ?? [];
+
+        if (data.mainMediaUrl)
+          parsedMedia?.push({
+            name: getFileNameFromUrl(data.mainMediaUrl, true),
+            url: data.mainMediaUrl,
+          });
+
+        setMedia(parsedMedia);
       });
   }, [authContext.user]);
 
-  // console.log(profileData);
+  useEffect(() => {
+    console.log("Profile data", profileData);
+  }, [profileData]);
+
   return (
     <section id="profile" className={styles.section}>
       <h1 className={styles.title}>Profile</h1>
@@ -124,10 +152,34 @@ const Profile = () => {
         onSubmit={async (values) => {
           const data = values as ProfileData;
 
-          data.skills = skills.toString();
-          data.mainMedia = mainMedia;
-          data.resume = resumeFile;
-          data.medias = medias?.filter((media) => media !== mainMedia);
+          data.skills = skills?.toString();
+          /**
+           * Files
+           * if there are new files, upload them
+           */
+          data.mainMedia = mainMedia?.file;
+          data.resume = resume.file;
+
+          let mediaFiles: File[] = [];
+          medias?.forEach((media) => {
+            if (media.file && media !== mainMedia) mediaFiles.push(media.file);
+          });
+          data.medias = mediaFiles;
+
+          /**
+           * URLs
+           * Check since all media's url is also the files name,
+           * do not push them if they're  not a url.
+           */
+          data.mainMediaUrl = mainMedia?.url;
+          data.resumeUrl = resume?.url;
+
+          let mediaUrls: string[] = [];
+          medias?.forEach((media) => {
+            if (media.url && media !== mainMedia) mediaUrls.push(media.url);
+          });
+          data.medias = mediaFiles;
+          data.mediaUrls = mediaUrls;
 
           try {
             await updateOrCreateProfile(
@@ -162,7 +214,7 @@ const Profile = () => {
                       medias.map((media, i) => (
                         <MediaDraggable
                           media={media}
-                          isSelected={media === mainMedia}
+                          isSelected={media.name === mainMedia.name}
                           key={media.name + i}
                           draggableId={media.name + i}
                           index={i}
@@ -262,14 +314,11 @@ const Profile = () => {
                     <button
                       type="button"
                       className={styles.trash_button}
-                      onClick={() => {
-                        setResumeUrl("");
-                        setResumeFile(undefined);
-                      }}
+                      onClick={() => setResume({ name: "" })}
                     >
                       <FaTrashAlt size={18} />
                     </button>
-                    <p>{resumeUrl}</p>
+                    <p>{resume.name}</p>
                   </div>
                 </div>
               </div>

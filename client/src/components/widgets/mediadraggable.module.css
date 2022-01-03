@@ -20,7 +20,7 @@
   overflow: hidden;
 
   transition: 200ms;
-  background-color: black;
+  background-color: var(--main);
 }
 
 .image_button:focus {

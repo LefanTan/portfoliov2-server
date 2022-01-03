@@ -2,13 +2,14 @@ import React from "react";
 import styles from "./mediadraggable.module.css";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { Draggable } from "react-beautiful-dnd";
+import { Media } from "../../types/profile.type";
 
 interface MediaProps {
   onClick?: () => void;
   onDeleteClick?: () => void;
   draggableId: string;
   index: number;
-  media: File;
+  media: Media;
   isSelected?: boolean;
 }
 
@@ -32,7 +33,14 @@ const MediaDraggable: React.FC<MediaProps> = (props) => {
                 <FaCheck className={styles.check} />
               </div>
             )}
-            <img alt="media" src={URL.createObjectURL(props.media)} />
+            <img
+              alt={props.draggableId}
+              src={
+                props.media.file
+                  ? URL.createObjectURL(props.media.file)
+                  : props.media.url
+              }
+            />
           </div>
           <button
             type="button"

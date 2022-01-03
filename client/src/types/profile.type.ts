@@ -1,10 +1,10 @@
 export type ProfileData = {
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   // an array seperated by comma
   // Do skills.split(',') to get list of skills
-  skills: string;
-  aboutMe: string;
+  skills?: string;
+  aboutMe?: string;
   linkedin: string;
   github: string;
 
@@ -12,7 +12,16 @@ export type ProfileData = {
   mainMedia?: File;
   medias?: File[];
 
-  resumeUrl: string;
-  mainMediaUrl: string;
-  mediaUrls: string[];
+  resumeUrl?: string;
+  mainMediaUrl?: string;
+  mediaUrls?: string[];
+};
+
+/**
+ * url - url of media
+ */
+export type Media = {
+  file?: File;
+  url?: string;
+  name: string;
 };

@@ -2,6 +2,7 @@ import {
   BelongsTo,
   Column,
   DataType,
+  Default,
   ForeignKey,
   Model,
   Table,
@@ -10,7 +11,7 @@ import User from "./user.model";
 
 @Table
 export default class Profile extends Model {
-  @Column
+  @Column({})
   firstName: string;
 
   @Column

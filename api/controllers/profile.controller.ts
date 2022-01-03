@@ -43,9 +43,9 @@ const updateProfile = (req: Request, res: Response) => {
         });
       }
 
-      let mainMediaUrl = "";
-      let mediaUrls: string[] = [];
-      let resumeUrl = "";
+      let mainMediaUrl: string = req.body.mainMediaUrl || "";
+      let mediaUrls: string[] = req.body.mediaUrls ? [req.body.mediaUrls] : [];
+      let resumeUrl: string = req.body.resumeUrl || "";
 
       if (req.files?.mainMedia && !Array.isArray(req.files?.mainMedia)) {
         mainMediaUrl = await portfolioStorage.uploadFile(
@@ -94,7 +94,7 @@ const updateProfile = (req: Request, res: Response) => {
           );
         });
 
-        mediaUrls = await Promise.all(tasks);
+        mediaUrls = mediaUrls.concat(await Promise.all(tasks));
 
         // Delete all files after they're uploaded
         mediaFiles.forEach((media) => {
@@ -105,31 +105,6 @@ const updateProfile = (req: Request, res: Response) => {
           }
         });
       }
-
-      // Delete all files not used by checking if the file name is present
-      // in any of the links
-      // This is by no means efficient, because uuid changes everytime,
-      // the same file might be replaced instead of getting reused again,
-      // Definitely should revisit this function
-      portfolioStorage.profileBucket
-        .getFiles({ autoPaginate: false, prefix: `${profile.userId}` })
-        .then((data) => {
-          // Overkill for sure, but I wanted to play around with
-          // regex a little!
-          let regex = new RegExp(`^(${profile.userId}\/)`, "g");
-
-          data[0].forEach((file) => {
-            let fileName = file.name.replace(regex, "").replaceAll(" ", "%20");
-            if (
-              profile.mainMediaUrl.includes(fileName) ||
-              profile.resumeUrl.includes(fileName) ||
-              profile.mediaUrls.find((url) => url.includes(fileName))
-            )
-              return;
-
-            portfolioStorage.profileBucket.file(file.name).delete();
-          });
-        });
 
       profile
         .update({
@@ -143,7 +118,37 @@ const updateProfile = (req: Request, res: Response) => {
           mainMediaUrl: mainMediaUrl,
           mediaUrls: mediaUrls,
         })
-        .then((profile) => res.send(profile))
+        .then((profile) => {
+          // Delete all files not used by checking if the file name is present
+          // in any of the links
+          // This is by no means efficient, because uuid changes everytime,
+          // the same file might be replaced instead of getting reused again,
+          // Definitely should revisit this function
+          portfolioStorage.profileBucket
+            .getFiles({ autoPaginate: false, prefix: `${profile.userId}` })
+            .then((data) => {
+              // Overkill for sure, but I wanted to play around with
+              // regex a little!
+              let regex = new RegExp(`^(${profile.userId}\/)`, "g");
+
+              data[0].forEach((file) => {
+                let fileName = encodeURIComponent(file.name.replace(regex, ""));
+
+                if (
+                  profile.mainMediaUrl?.includes(fileName) ||
+                  profile.resumeUrl?.includes(fileName) ||
+                  profile.mediaUrls?.find((url) => url.includes(fileName))
+                ) {
+                  return;
+                }
+
+                console.log(`Deleting ${fileName}...`);
+                portfolioStorage.profileBucket.file(file.name).delete();
+              });
+
+              res.send(profile);
+            });
+        })
         .catch((err) => res.status(400).send({ error: err }));
     });
 };
