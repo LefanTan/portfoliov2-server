@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./mediadraggable.module.css";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { Draggable } from "react-beautiful-dnd";
-import { Media } from "../../types/profile.type";
+import { Media } from "../../types/main.type";
 
 interface MediaProps {
   onClick?: () => void;

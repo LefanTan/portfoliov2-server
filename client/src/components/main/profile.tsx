@@ -13,7 +13,7 @@ import {
   updateOrCreateProfile,
 } from "../../services/profile.service";
 import { AuthContext } from "../../providers/auth.provider";
-import { Media, ProfileData } from "../../types/profile.type";
+import { Media, ProfileData } from "../../types/main.type";
 import { FaTrashAlt } from "react-icons/fa";
 
 const Profile = () => {
@@ -140,10 +140,6 @@ const Profile = () => {
         setMedia(parsedMedia);
       });
   }, [authContext.user]);
-
-  useEffect(() => {
-    console.log("Profile data", profileData);
-  }, [profileData]);
 
   return (
     <section id="profile" className={styles.section}>

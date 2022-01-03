@@ -111,7 +111,7 @@ const updateProfile = (req: Request, res: Response) => {
           }
         });
       }
-      console.log(resumeUrl);
+
       profile
         .update({
           firstName: req.body.firstName,

@@ -1,4 +1,4 @@
-import { ProfileData } from "../types/profile.type";
+import { ProfileData } from "../types/main.type";
 import axiosInstance from "./axiosInstance";
 
 export const updateOrCreateProfile = (userId: number, profile: ProfileData) => {
@@ -13,8 +13,6 @@ export const updateOrCreateProfile = (userId: number, profile: ProfileData) => {
       formData.append(key, value);
     }
   });
-
-  console.log(profile);
 
   return axiosInstance.put("/profile/" + userId, formData, {
     headers: { "Content-Type": "multipart/form-data" },
