@@ -1,0 +1,114 @@
+header {
+  padding: 0.75rem 1rem;
+}
+
+header button {
+  display: inline-block;
+}
+
+header button h2 {
+  margin-left: 0.5rem;
+}
+
+.main {
+  padding: 1rem 2rem;
+}
+
+.main > h1 {
+  font-size: 2rem;
+}
+
+.project_form {
+  min-width: 27.5rem;
+}
+
+.row {
+  display: flex;
+}
+
+.row > div {
+  flex: 1;
+  height: fit-content;
+}
+
+.row > div:first-of-type {
+  min-width: 60%;
+  margin-right: 0.5rem;
+}
+
+.mediaRow {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  min-height: 4.75rem;
+}
+
+.description {
+  flex: 1;
+  height: calc(100% - 25%);
+}
+
+.icon_button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  transition: 200ms;
+}
+
+.icon_button:hover {
+  color: var(--focus);
+}
+
+.project_form textarea {
+  min-height: 6rem;
+}
+
+.switch {
+  opacity: 0%;
+  width: 0px;
+  height: 0px;
+}
+
+.switch + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+
+  background-color: var(--error);
+  width: 50px;
+  height: 25px;
+  border-radius: 15px;
+
+  margin-top: 0.5rem;
+  transition: 300ms;
+}
+
+.switch + label:after {
+  --margin: 5px;
+  --size: calc(25px - var(--margin));
+
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(var(--margin) / 2);
+
+  transform: translateY(-50%);
+
+  width: var(--size);
+  height: var(--size);
+  background-color: white;
+  border-radius: 50%;
+
+  transition: 300ms;
+}
+
+.switch:checked + label {
+  background-color: black;
+}
+
+.switch:checked + label:after {
+  left: calc(var(--size) + var(--margin) * 1.5);
+}

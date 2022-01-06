@@ -11,7 +11,7 @@ import {
   getFileNameFromUrl,
   getProfile,
   updateOrCreateProfile,
-} from "../../services/profile.service";
+} from "../../services/main.service";
 import { AuthContext } from "../../providers/auth.provider";
 import { Media, ProfileData } from "../../types/main.type";
 import { FaTrashAlt } from "react-icons/fa";
@@ -37,6 +37,33 @@ const Profile = () => {
 
   const [submitError, setSubmitError] = useState("");
 
+  const handleFormReset = async (resetForm: Function) => {
+    if (!authContext.user) return;
+    if (!window.confirm("Are you sure you want to reset your profile?")) return;
+
+    resetForm();
+    setResume({ name: "" });
+    setMainMedia({ name: "" });
+    setMedia([]);
+    setSkills([]);
+    setProfileData({});
+
+    await updateOrCreateProfile(authContext.user?.id, {
+      firstName: "",
+      lastName: "",
+      skills: "",
+      aboutMe: "",
+      linkedin: "",
+      github: "",
+      resume: undefined,
+      resumeUrl: "",
+      medias: undefined,
+      mediaUrls: [],
+      mainMedia: undefined,
+      mainMediaUrl: "",
+    } as ProfileData);
+  };
+
   /**
    * Handle resume input file change
    */
@@ -57,7 +84,7 @@ const Profile = () => {
   const addMedia = (files: FileList) => {
     //TODO: Limit file size
 
-    const temp = medias ? [...Array.from(medias)] : [];
+    const temp = [...medias];
     Array.from(files).forEach((file) => {
       if (medias.find((media) => media.name === file.name)) {
         alert(`File ${file.name} already added`);
@@ -73,14 +100,14 @@ const Profile = () => {
   const deleteMedia = (toDelete: Media) => {
     if (mainMedia === toDelete) setMainMedia({ name: "" });
 
-    medias && setMedia(medias.filter((media) => media !== toDelete));
+    setMedia(medias.filter((media) => media !== toDelete));
   };
 
   /**
    * End drag handler for React-beautiful-dnd
    */
   const onDragEndHandler = (result: DropResult) => {
-    if (medias && result.destination) {
+    if (result.destination) {
       const temp = [...Array.from(medias)];
       temp.splice(result.source.index, 1);
       temp.splice(result.destination?.index, 0, medias[result.source.index]);
@@ -111,7 +138,7 @@ const Profile = () => {
     if (authContext.user)
       getProfile(authContext.user.id).then((data) => {
         setProfileData(data);
-        setSkills(data.skills?.split(",") ?? []);
+        setSkills(data.skills ? data.skills?.split(",") : []);
 
         let resumeFileName =
           data.resumeUrl && getFileNameFromUrl(data.resumeUrl, true);
@@ -150,6 +177,8 @@ const Profile = () => {
           ...profileData,
         }}
         onSubmit={async (values) => {
+          if (!authContext.user) return;
+
           const data = values as ProfileData;
 
           data.skills = skills?.toString();
@@ -199,6 +228,7 @@ const Profile = () => {
           handleChange,
           handleSubmit,
           isSubmitting,
+          resetForm,
         }) => (
           <form onSubmit={handleSubmit} className={styles.form}>
             <p>{medias && "click to select as main"}</p>
@@ -284,7 +314,7 @@ const Profile = () => {
                   <input
                     id="github"
                     name="github"
-                    type="text"
+                    type="url"
                     onChange={handleChange}
                     value={values.github || ""}
                   />
@@ -295,7 +325,7 @@ const Profile = () => {
                   <input
                     id="linkedin"
                     name="linkedin"
-                    type="text"
+                    type="url"
                     onChange={handleChange}
                     value={values.linkedin || ""}
                   />
@@ -304,9 +334,6 @@ const Profile = () => {
                 <div>
                   <label id="resume_title">Resume</label>
                   <div className={styles.row_center}>
-                    <label htmlFor="resume" className={styles.browse}>
-                      Choose a file
-                    </label>
                     <input
                       ref={resumeFileInputRef}
                       type="file"
@@ -314,6 +341,9 @@ const Profile = () => {
                       name="resume"
                       id="resume"
                     />
+                    <label htmlFor="resume" className={styles.browse}>
+                      Choose a file
+                    </label>
                     <button
                       type="button"
                       className={styles.trash_button}
@@ -331,7 +361,11 @@ const Profile = () => {
               <MainButton type="submit" style={{ marginRight: "0.5rem" }}>
                 {isSubmitting ? <Loading size={20} /> : "Save"}
               </MainButton>
-              <MainButton type="reset" contrast>
+              <MainButton
+                type="reset"
+                onclick={() => handleFormReset(resetForm)}
+                contrast
+              >
                 Reset
               </MainButton>
             </div>

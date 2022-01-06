@@ -34,7 +34,7 @@ const MediaDraggable: React.FC<MediaProps> = (props) => {
               </div>
             )}
             <img
-              alt={props.draggableId}
+              alt={props.media.name}
               src={
                 props.media.file
                   ? URL.createObjectURL(props.media.file)

@@ -1,0 +1,67 @@
+.project_draggable {
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  margin-top: 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--main);
+  border-radius: 10px;
+
+  position: relative;
+}
+
+.project_draggable > div:first-child {
+  width: 50%;
+  max-height: 100%;
+
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+div:first-child h1 {
+  font-weight: 400;
+}
+
+div:first-child p {
+  line-height: 1rem;
+}
+
+.drag {
+  position: absolute;
+  left: 0.5rem;
+  top: 15%;
+
+  width: 3px;
+  height: 70%;
+
+  border-radius: 20px;
+  background-color: black;
+}
+
+.icon_button {
+  background-color: transparent;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  transition: 200ms;
+  color: black;
+}
+
+.icon_button:hover {
+  color: rgb(120, 212, 255);
+}
+
+.row {
+  display: flex;
+}
+
+.row a {
+  margin-right: 0.5rem;
+}

@@ -17,6 +17,7 @@
 
 input[type="text"].input {
   border: none;
+  border-radius: 0%;
   outline: none;
   padding: 0rem;
   margin-top: 0px;

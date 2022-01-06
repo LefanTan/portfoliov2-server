@@ -31,6 +31,7 @@ main {
 
 input[type="text"],
 input[type="email"],
+input[type="url"],
 input[type="password"],
 textarea {
   display: block;
@@ -44,6 +45,19 @@ textarea {
   resize: vertical;
   border: 1px solid #d8d8d8;
   font-size: 0.85rem;
+}
+
+input[type="file"] {
+  width: 0px;
+  height: 0px;
+  border: none;
+  clip: rect(1px, 1px, 1px, 1px);
+
+  position: absolute !important;
+}
+
+input[type="file"]:focus + label {
+  outline: 2px solid var(--focus);
 }
 
 input:focus,
@@ -60,6 +74,10 @@ label {
   font-weight: 400;
   font-size: 0.9rem;
   margin-top: 1rem;
+}
+
+label > span {
+  font-size: 0.8rem;
 }
 
 strong {

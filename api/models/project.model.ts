@@ -2,6 +2,8 @@ import {
   AllowNull,
   BelongsTo,
   Column,
+  DataType,
+  Default,
   ForeignKey,
   Model,
   Table,
@@ -14,14 +16,18 @@ export default class Project extends Model {
   @Column
   title: string;
 
-  @Column
+  @AllowNull(false)
+  @Column(DataType.TEXT)
   description: string;
 
-  @Column
-  mainDemoUrl: string;
+  @Column(DataType.TEXT)
+  mainMediaUrl: string;
 
-  @Column
-  stack: string;
+  @Column(DataType.JSON)
+  mediaUrls: string[];
+
+  @Column(DataType.JSON)
+  stack: string[];
 
   @Column
   link: string;
@@ -29,17 +35,22 @@ export default class Project extends Model {
   @Column
   repo: string;
 
-  @Column
+  @Column(DataType.TEXT)
   purposeAndGoal: string;
 
-  @Column
+  @Column(DataType.TEXT)
   problems: string;
 
-  @Column
+  @Column(DataType.TEXT)
   lessonsLearned: string;
 
+  @Default(false)
   @Column
   inProgress: boolean;
+
+  @Default(0)
+  @Column
+  order: number;
 
   @ForeignKey(() => User)
   userId: number;

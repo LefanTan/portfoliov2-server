@@ -2,7 +2,6 @@ import {
   BelongsTo,
   Column,
   DataType,
-  Default,
   ForeignKey,
   Model,
   Table,

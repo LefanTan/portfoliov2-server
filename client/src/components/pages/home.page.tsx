@@ -1,6 +1,6 @@
 import { Header } from "../main/header";
 import Profile from "../main/profile";
-import Projects from "../main/projects.module";
+import Projects from "../main/projects";
 import styles from "./home.module.css";
 
 const HomePage = () => {

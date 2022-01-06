@@ -59,10 +59,7 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
 
   return (
     <div
-      aria-labelledby={props.ariaLabelledBy}
-      aria-label={props.ariaLabel}
       role="group"
-      id={props.id}
       className={styles.container}
       style={isFocus ? focusOutline : undefined}
     >
@@ -80,6 +77,8 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
       <input
         type="text"
         className={styles.input}
+        id={props.id}
+        aria-labelledby={props.ariaLabelledBy}
         value={value}
         placeholder="type here..."
         onFocus={() => setIsFocus(true)}

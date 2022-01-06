@@ -33,16 +33,7 @@ const AddMediaButton: React.FC<AddMediaButtonProps> = (props) => {
   }, [inputRef, props.onFileChange]);
 
   return (
-    <label
-      htmlFor="addmedia"
-      onClick={props.onClick}
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
-      className={styles.add_media_button}
-      style={focus ? outline : undefined}
-    >
-      <FaPhotoVideo className={styles.photo_video_icon} />
-      <p className={styles.label}>Add Media</p>
+    <>
       <input
         ref={inputRef}
         type="file"
@@ -51,7 +42,18 @@ const AddMediaButton: React.FC<AddMediaButtonProps> = (props) => {
         multiple={props.multiple ?? true}
         id="addmedia"
       />
-    </label>
+      <label
+        htmlFor="addmedia"
+        onClick={props.onClick}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        className={styles.add_media_button}
+        style={focus ? outline : undefined}
+      >
+        <FaPhotoVideo className={styles.photo_video_icon} />
+        <p className={styles.p}>Add Media</p>
+      </label>
+    </>
   );
 };
 

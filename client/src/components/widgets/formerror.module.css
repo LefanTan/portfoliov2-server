@@ -2,4 +2,12 @@
   color: var(--error);
   font-size: 0.8rem;
   margin-top: 0.25rem;
+  vertical-align: 20px;
+
+  display: flex;
+  align-items: center;
+}
+
+.h3 > svg {
+  margin-right: 0.25rem;
 }

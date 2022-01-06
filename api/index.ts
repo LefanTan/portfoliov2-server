@@ -47,9 +47,52 @@ const init = () => {
           id: user.id,
         })
         .then((profile) => user.$set("profile", profile));
+
+      db.project
+        .create({
+          title: "Popin",
+          description:
+            "A mobile application designed to help students on campus to host or find events. It's designed to be simple and fun to use!",
+          repo: "https://github.com/LefanTan/popin-spike",
+          stack: ["react native", "firebase"],
+          inProgress: true,
+        })
+        .then((project) => user.$add("project", project));
+
+      db.project
+        .create({
+          title: "Big 2",
+          description: "Online card game to play with your friends!",
+          link: "https://lefantan.github.io/big2/",
+          repo: "https://github.com/LefanTan/big2",
+          stack: ["react", "javascript", "firebase"],
+          purposeAndGoal:
+            "I wanted to create a fun and easy to use website to play Big 2 with my friends",
+          problems: "The website is not responsive",
+        })
+        .then((project) => user.$add("project", project));
+
+      let randomStack = [];
+      for (let i = 0; i < Math.random() * 10; i++) {
+        randomStack.push(faker.vehicle.type());
+      }
+
+      db.project
+        .create({
+          title: faker.lorem.words(),
+          description: faker.lorem.paragraph(),
+          link: faker.internet.url(),
+          repo: faker.internet.url(),
+          stack: randomStack,
+          purposeAndGoal: faker.lorem.paragraphs(),
+          problems: faker.lorem.paragraphs(),
+          lessonsLearned: faker.lorem.paragraphs(),
+          inProgress: faker.datatype.boolean(),
+        })
+        .then((project) => user.$add("project", project));
     });
 
-  // Create 10 users and their profile
+  // Create 10 users, their profile and some projects
   for (let i = 0; i < 10; i++) {
     db.user
       .create({
@@ -71,6 +114,20 @@ const init = () => {
             id: user.id,
           })
           .then((profile) => user.$set("profile", profile));
+
+        db.project
+          .create({
+            title: faker.lorem.words(),
+            description: faker.lorem.paragraph(),
+            link: faker.internet.url(),
+            repo: faker.internet.url(),
+            stack: faker.vehicle.type(),
+            purposeAndGoal: faker.lorem.paragraphs(),
+            problems: faker.lorem.paragraphs(),
+            lessonsLearned: faker.lorem.paragraphs(),
+            inProgress: faker.datatype.boolean(),
+          })
+          .then((project) => user.$add("project", project));
       });
   }
 };

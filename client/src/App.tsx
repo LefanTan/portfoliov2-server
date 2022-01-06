@@ -8,6 +8,7 @@ import SignUpPage from "./components/pages/signup.page";
 import { PrivateRoute, PublicRoute } from "./components/routes";
 import SignOutPage from "./components/pages/signout.page";
 import NotFoundPage from "./components/pages/notfound.page";
+import Project from "./components/pages/project.page";
 
 /**
  * TODO: Use React.lazy and React.suspense in the future!
@@ -68,6 +69,22 @@ const App = () => {
           }
         />
         <Route path="/signout" element={<SignOutPage />} />
+        <Route
+          path="/project/:id"
+          element={
+            <PrivateRoute isLoading={loading} isAuthenticated={auth}>
+              <Project />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/project/create"
+          element={
+            <PrivateRoute isLoading={loading} isAuthenticated={auth}>
+              <Project />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

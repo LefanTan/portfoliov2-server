@@ -8,18 +8,18 @@ const projectRoutes = Router();
 
 projectRoutes.use(authJwt.verifyToken);
 
-projectRoutes.get("/:userId", projectController.getAllProjects);
-projectRoutes.get("/:projectId", projectController.getProject);
+projectRoutes.get("/projects/:userId", projectController.getAllProjects);
+projectRoutes.get("/project/:projectId", projectController.getProject);
 projectRoutes.post(
-  "/:userId",
+  "/projects/:userId",
   [check("title").exists().isString(), ...projectValidate],
   projectController.createProject
 );
 projectRoutes.put(
-  "/:projectId",
+  "/project/:projectId",
   projectValidate,
   projectController.updateProject
 );
-projectRoutes.delete("/:projectId", projectController.deleteProject);
+projectRoutes.delete("/project/:projectId", projectController.deleteProject);
 
 export default projectRoutes;

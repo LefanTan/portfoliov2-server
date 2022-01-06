@@ -22,17 +22,27 @@
   margin-top: 1rem;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox {
-  display: inline;
   width: 20px;
+  display: inline-block;
 
   margin-right: 0.25rem;
+  margin-top: 1rem;
+  vertical-align: middle;
 }
 
 .remember {
+  display: inline-block;
   color: black;
   font-size: 0.8rem;
-  margin-top: 10px;
+
+  margin-top: 1rem;
+  vertical-align: middle;
 }
 
 .h1 {

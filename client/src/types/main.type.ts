@@ -5,8 +5,8 @@ export type ProfileData = {
   // Do skills.split(',') to get list of skills
   skills?: string;
   aboutMe?: string;
-  linkedin: string;
-  github: string;
+  linkedin?: string;
+  github?: string;
 
   resume?: File;
   mainMedia?: File;
@@ -18,7 +18,23 @@ export type ProfileData = {
 };
 
 export type ProjectData = {
-  name: string;
+  id: number;
+  title: string;
+  description: string;
+  stack?: string[];
+  link?: string;
+  repo?: string;
+  purposeAndGoal?: string;
+  problems?: string;
+  lessonsLearned?: string;
+  inProgress?: boolean;
+  order?: number;
+
+  mainMedia?: File;
+  medias?: File[];
+
+  mainMediaUrl?: string;
+  mediaUrls?: string[];
 };
 
 /**

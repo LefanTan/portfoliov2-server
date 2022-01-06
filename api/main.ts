@@ -59,7 +59,7 @@ export function main() {
 
   app.use("/auth", authRoutes);
   app.use("/user", userRoutes);
-  app.use("/project", projectRoutes);
+  app.use(projectRoutes);
   app.use("/profile", profileRoutes);
 
   return app;

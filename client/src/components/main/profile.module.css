@@ -3,7 +3,6 @@
   box-shadow: 0px 10px 40px var(--shadow-main);
 
   padding: 1rem;
-  min-width: 27.5rem;
 }
 
 .title {
@@ -60,13 +59,6 @@
   align-items: center;
 }
 
-input[type="file"] {
-  width: 0px;
-  height: 0px;
-  position: absolute !important;
-  visibility: hidden;
-}
-
 .browse {
   display: flex;
 
@@ -91,10 +83,6 @@ input[type="file"] {
   outline: 2px solid var(--focus);
 }
 
-#resume_title + .row {
-  align-items: flex-start;
-}
-
 .trash_button {
   display: flex;
   align-items: center;
@@ -103,6 +91,7 @@ input[type="file"] {
   color: black;
   border: none;
 
+  margin-top: 0.25rem;
   margin-right: 0.25rem;
 
   transition: 200ms;
