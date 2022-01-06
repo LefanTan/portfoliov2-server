@@ -1,10 +1,20 @@
 import { Bucket, DownloadOptions, Storage } from "@google-cloud/storage";
 import moment from "moment";
 
+require("dotenv").config();
+
 class PortfolioStorage {
   storage = new Storage();
-  profileBucket = this.storage.bucket("profile-bucket");
-  projectBucket = this.storage.bucket("projects-bucket");
+  profileBucket = this.storage.bucket(
+    process.env.NODE_ENV !== "production"
+      ? "test-profile-bucket"
+      : "profile-bucket"
+  );
+  projectBucket = this.storage.bucket(
+    process.env.NODE_ENV !== "production"
+      ? "test-projects-bucket"
+      : "projects-bucket"
+  );
 
   async createBucket(bucketName: string) {
     try {

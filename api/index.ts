@@ -15,17 +15,22 @@ main().listen(PORT, () => {
 
 // force = true only during development, as it drops all data
 // use alter?
-db.sequelize.sync({ force: true }).then(async () => {
-  console.log("Dropped and Resync DB");
 
-  await portfolioStorage.profileBucket.deleteFiles();
-  await portfolioStorage.projectBucket.deleteFiles();
-  console.log("Purged all cloud storage files");
+if (process.env.NODE_ENV !== "production") {
+  db.sequelize.sync({ force: true }).then(async () => {
+    console.log("Dropped and Resync DB");
 
-  init();
+    await portfolioStorage.profileBucket.deleteFiles();
+    await portfolioStorage.projectBucket.deleteFiles();
+    console.log("Purged all cloud storage files");
 
-  console.log("Server ready");
-});
+    init();
+
+    console.log("Server ready");
+  });
+} else {
+  db.sequelize.sync();
+}
 
 // seed some data
 const init = () => {
@@ -56,6 +61,7 @@ const init = () => {
           repo: "https://github.com/LefanTan/popin-spike",
           stack: ["react native", "firebase"],
           inProgress: true,
+          order: 2,
         })
         .then((project) => user.$add("project", project));
 
@@ -69,6 +75,7 @@ const init = () => {
           purposeAndGoal:
             "I wanted to create a fun and easy to use website to play Big 2 with my friends",
           problems: "The website is not responsive",
+          order: 1,
         })
         .then((project) => user.$add("project", project));
 
@@ -88,6 +95,7 @@ const init = () => {
           problems: faker.lorem.paragraphs(),
           lessonsLearned: faker.lorem.paragraphs(),
           inProgress: faker.datatype.boolean(),
+          order: 3,
         })
         .then((project) => user.$add("project", project));
     });
@@ -126,6 +134,7 @@ const init = () => {
             problems: faker.lorem.paragraphs(),
             lessonsLearned: faker.lorem.paragraphs(),
             inProgress: faker.datatype.boolean(),
+            order: i,
           })
           .then((project) => user.$add("project", project));
       });

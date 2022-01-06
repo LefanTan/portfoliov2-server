@@ -83,6 +83,10 @@ export const updateProject = (projectId: number, projectData: ProjectData) => {
   });
 };
 
+export const deleteProject = (projectId: number) => {
+  return axiosInstance.delete("/project/" + projectId);
+};
+
 /**
  * Get the file name from a google signed URL
  * @param url Google Signed URL

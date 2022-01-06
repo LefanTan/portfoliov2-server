@@ -26,6 +26,11 @@ header button h2 {
   display: flex;
 }
 
+.row_between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .row > div {
   flex: 1;
   height: fit-content;

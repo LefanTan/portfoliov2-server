@@ -70,9 +70,11 @@ const deleteProject = (req: Request, res: Response) => {
         });
 
       project.destroy().then(() =>
-        res.send({
-          message: `Project - {${req.params.projectId}} successfully deleted`,
-        })
+        clearProjectBucket(project).then(() =>
+          res.send({
+            message: `Project - {${req.params.projectId}} successfully deleted`,
+          })
+        )
       );
     });
 };
@@ -92,6 +94,7 @@ const createProject = (req: Request, res: Response) => {
       where: {
         id: req.params.userId,
       },
+      include: [Project],
     })
     .then((user) => {
       if (!user)
@@ -99,17 +102,15 @@ const createProject = (req: Request, res: Response) => {
           .status(400)
           .send({ error: `user id - {${req.params.userId}} doesn't exist` });
 
+      const largestOrder = user.projects.length > 0 ? user.projects.sort((a, b) => b.order - a.order)[0]
+        .order : 0;
+
+      console.log(largestOrder + 1);
+
       db.project
         .create({
-          title: req.body.title,
-          description: req.body.description,
-          stack: req.body.stack,
-          link: req.body.link,
-          repo: req.body.repo,
-          purposeAndGoal: req.body.purposeAndGoal,
-          problems: req.body.problems,
-          lessonsLearned: req.body.lessonsLearned,
-          inProgress: req.body.inProgress,
+          ...req.body,
+          order: largestOrder + 1,
         })
         .then(async (project) => {
           let [newMainMediaUrl, newMediaUrls] = await uploadProjectMedia(
@@ -178,15 +179,7 @@ const updateProject = (req: Request, res: Response) => {
 
       project
         .update({
-          title: req.body.title,
-          description: req.body.description,
-          stack: req.body.stack,
-          link: req.body.link,
-          repo: req.body.repo,
-          purposeAndGoal: req.body.purposeAndGoal,
-          problems: req.body.problems,
-          lessonsLearned: req.body.lessonsLearned,
-          inProgress: req.body.inProgress,
+          ...req.body,
           mediaUrls: newMediaUrls.concat(oldMediaUrls),
           mainMediaUrl: newMainMediaUrl || req.body.mainMediaUrl,
         })

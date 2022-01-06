@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import { ProjectData } from "../../types/main.type";
 import styles from "./projectdraggable.module.css";
 
-interface ProjectDraggable {
+interface ProjectDraggableProps {
   index: number;
   draggableId: string;
   project: ProjectData;
 }
 
-const ProjectDraggable: React.FC<ProjectDraggable> = (props) => {
+const ProjectDraggable: React.FC<ProjectDraggableProps> = (props) => {
   let project = props.project;
 
   return (

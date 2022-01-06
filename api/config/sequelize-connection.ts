@@ -1,5 +1,10 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import { Dialect } from "sequelize";
+import User from "../models/user.model";
+import Profile from "../models/profile.model";
+import Role from "../models/role.model";
+import UserRoles from "../models/user_roles.model";
+import Project from "../models/project.model";
 
 require("dotenv").config();
 
@@ -12,7 +17,7 @@ const config: SequelizeOptions = {
   logging: process.env.DB_LOGGING === "true",
   storage: ":memory:",
   dialect: "mysql",
-  models: ["/app/**/*.model.ts"],
+  models: [User, Profile, Role, UserRoles, Project],
 };
 
 // Intialize sequelize connection

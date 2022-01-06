@@ -2,17 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   createProject,
+  deleteProject,
   getFileNameFromUrl,
   getProject,
   updateProject,
 } from "../../services/main.service";
 import { Media, ProjectData } from "../../types/main.type";
 import styles from "./project.module.css";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaTrashAlt } from "react-icons/fa";
 import CategoryInput from "../widgets/categoryinput";
 import MainButton from "../widgets/mainbutton";
 import * as Yup from "yup";
-import { ErrorMessage, Formik } from "formik";
+import { Formik } from "formik";
 import FormError from "../widgets/formerror";
 import Loading from "../widgets/loading";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -67,6 +68,20 @@ const Project: React.FC = () => {
     if (mainMedia === toDelete) setMainMedia({ name: "" });
 
     setMedias(medias.filter((media) => media !== toDelete));
+  };
+
+  /**
+   * When user wants to delete this project
+   */
+  const handleProjectDelete = () => {
+    if (
+      project &&
+      window.confirm(
+        "Are you sure you want to delete this project? All data will be erased"
+      )
+    ) {
+      deleteProject(project?.id).then(() => goHome());
+    }
   };
 
   useEffect(() => {
@@ -310,16 +325,24 @@ const Project: React.FC = () => {
                     onChange={handleChange}
                   />
 
-                  <div className={styles.row}>
-                    <MainButton
-                      type="submit"
-                      style={{ marginRight: `0.25rem` }}
-                    >
-                      {isSubmitting ? <Loading size={20} /> : "Save"}
-                    </MainButton>
-                    <MainButton onclick={goHome} contrast>
-                      Cancel
-                    </MainButton>
+                  <div className={styles.row_between}>
+                    <div className={styles.row}>
+                      <MainButton
+                        type="submit"
+                        style={{ marginRight: `0.5rem` }}
+                      >
+                        {isSubmitting ? <Loading size={20} /> : "Save"}
+                      </MainButton>
+                      <MainButton onclick={goHome} contrast>
+                        Cancel
+                      </MainButton>
+                    </div>
+
+                    {!isNew && (
+                      <MainButton onclick={handleProjectDelete}>
+                        <FaTrashAlt size={20} />
+                      </MainButton>
+                    )}
                   </div>
 
                   {submitError !== "" && (

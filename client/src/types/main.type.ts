@@ -21,6 +21,8 @@ export type ProjectData = {
   id: number;
   title: string;
   description: string;
+  order: number;
+
   stack?: string[];
   link?: string;
   repo?: string;
@@ -28,7 +30,6 @@ export type ProjectData = {
   problems?: string;
   lessonsLearned?: string;
   inProgress?: boolean;
-  order?: number;
 
   mainMedia?: File;
   medias?: File[];

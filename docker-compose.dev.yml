@@ -2,28 +2,30 @@ version: '3.8'
 
 services: 
   api:
+    restart: always
     depends_on:
       - mysql
     container_name: api
     image: lefantan/portfoliov2-backend
     build:
       context: ./api
-      dockerfile: Dockerfile
-    volumes:
-      - ./api:/app
-    expose: 
+      dockerfile: Dockerfile.production
+    expose:
       [3001]
+    environment:
+      NODE_ENV: production
+      GOOGLE_APPLICATION_CREDENTIALS: service-account.json
   client:
+    restart: always
     container_name: client
     image: lefantan/portfoliov2-backend_client
     build:
       context: ./client
       dockerfile: Dockerfile
-    volumes:
-      - ./client:/app
     expose:
-      [4000]
+      [5000]
   nginx:
+    restart: always
     container_name: nginx
     depends_on:
       - api
@@ -38,7 +40,7 @@ services:
     container_name: mysql
     volumes: 
       # persist data
-      - ./temp_data:/var/lib/mysql
+      - data-volume:/var/lib/mysql
     restart: always
     cap_add:
       - SYS_NICE
@@ -47,3 +49,6 @@ services:
       MYSQL_DATABASE: portfolio
     ports:
       - "3306:3306"
+
+volumes:
+  data-volume:
