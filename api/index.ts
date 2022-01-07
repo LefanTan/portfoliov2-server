@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== "production") {
     console.log("Server ready");
   });
 } else {
-  db.sequelize.sync();
+  db.sequelize.sync({alter: true});
 }
 
 // seed some data

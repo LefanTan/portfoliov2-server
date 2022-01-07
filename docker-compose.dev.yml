@@ -21,7 +21,7 @@ services:
     image: lefantan/portfoliov2-backend_client
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.production
     expose:
       [5000]
   nginx:
