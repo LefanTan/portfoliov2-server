@@ -94,8 +94,6 @@ const createProject = (req: UserAuthRequest, res: Response) => {
     return res.status(400).send({ error: error.array() });
   }
 
-  console.log(req.userId, req.params.id);
-
   if (req.userId != req.params.id) {
     return res.status(401).send({ error: "Unauthorized access" });
   }

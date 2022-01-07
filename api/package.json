@@ -7,7 +7,7 @@
     "build": "tsc --lib dom --project ./",
     "start": "npx ts-node index.ts",
     "serve": "nodemon ./index.ts",
-    "pm2": "NODE_ENV=production pm2 start ./build/index.js --no-daemon --watch --ignore-watch=./build/tmp",
+    "pm2": "NODE_ENV=production pm2 start ./build/index.js --no-daemon",
     "test": "NODE_ENV=test mocha -r ts-node/register test/*.test.ts --exit --timeout 50000"
   },
   "author": "Lefan",
