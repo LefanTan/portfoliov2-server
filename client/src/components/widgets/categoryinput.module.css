@@ -9,6 +9,8 @@
   align-items: flex-start;
   flex-wrap: wrap;
   height: fit-content;
+
+  position: relative;
 }
 
 .container:focus {
@@ -30,7 +32,7 @@ input[type="text"].input {
   outline: none;
 }
 
-.container button {
+.categories_button {
   padding: 0.25rem 0.5rem;
   margin-right: 0.25rem;
   margin-bottom: 0.35rem;
@@ -54,4 +56,14 @@ input[type="text"].input {
 
 .strong {
   font-weight: 500;
+}
+
+.input + button {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .input + button {
+    display: initial;
+  }
 }

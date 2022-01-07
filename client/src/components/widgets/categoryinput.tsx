@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { FaRegTimesCircle } from "react-icons/fa";
 import styles from "./categoryinput.module.css";
+import MainButton from "./mainbutton";
 
 interface CategoryInputProps {
   onChange: (list: string[]) => void;
@@ -33,6 +34,13 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
     },
     [category, value, isFocus]
   );
+
+  const submitHandler = () => {
+    if (value !== "") {
+      setCategory([...category, value.trim()]);
+      setValue("");
+    }
+  };
 
   const deleteItem = (index: number) => {
     setCategory(category.filter((val, i) => i !== index));
@@ -69,6 +77,7 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
           onClick={() => deleteItem(i)}
           type="button"
           key={item + i}
+          className={styles.categories_button}
         >
           <FaRegTimesCircle size={12} />
           &nbsp;{item}
@@ -87,6 +96,18 @@ const CategoryInput: React.FC<CategoryInputProps> = (props) => {
           if (event.target.value !== "\n") setValue(event.target.value);
         }}
       />
+      <MainButton
+        type="button"
+        style={{
+          position: "absolute",
+          bottom: 3,
+          right: 3,
+          fontSize: "0.75rem",
+        }}
+        onclick={submitHandler}
+      >
+        Submit
+      </MainButton>
     </div>
   );
 };

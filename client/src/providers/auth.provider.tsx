@@ -27,6 +27,7 @@ const AuthProvider: React.FC = ({ children }) => {
           id: res.data.id,
           username: res.data.username,
           email: res.data.email,
+          apiKey: res.data.apiKey,
         });
 
         setLoggedIn(true);
@@ -91,6 +92,22 @@ const AuthProvider: React.FC = ({ children }) => {
           localStorage.removeItem("user");
           setLoggedIn(false);
           await axiosInstance.post("/auth/signout");
+        },
+        generateApiKey: async () => {
+          if (user) {
+            try {
+              const res = await axiosInstance.post(`/user/${user.id}/generate`);
+
+              let copy = { ...user };
+              copy.apiKey = res.data.key;
+              setUser(copy);
+              return copy.apiKey!;
+            } catch (err: any) {
+              throw new Error(err);
+            }
+          } else {
+            throw new Error("User undefined");
+          }
         },
       }}
     >

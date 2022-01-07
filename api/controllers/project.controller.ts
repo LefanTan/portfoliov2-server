@@ -4,6 +4,7 @@ import { resolve } from "path/posix";
 import db from "../config/db.config";
 import portfolioStorage from "../config/storage.config";
 import Project from "../models/project.model";
+import { UserAuthRequest } from "../types/request";
 
 const fs = require("fs");
 
@@ -15,14 +16,14 @@ const getAllProjects = (req: Request, res: Response) => {
   db.user
     .findOne({
       where: {
-        id: req.params.userId,
+        id: req.params.id,
       },
     })
     .then((user) => {
       if (!user)
         return res
           .status(400)
-          .send({ error: `user id - ${req.params.userId} doesn't exist` });
+          .send({ error: `user id - ${req.params.id} doesn't exist` });
 
       user
         .$get("projects")
@@ -56,7 +57,7 @@ const getProject = (req: Request, res: Response) => {
  * Delete a Project based on its id
  * @param req.params.projectId
  */
-const deleteProject = (req: Request, res: Response) => {
+const deleteProject = (req: UserAuthRequest, res: Response) => {
   db.project
     .findOne({
       where: {
@@ -68,6 +69,10 @@ const deleteProject = (req: Request, res: Response) => {
         return res.status(400).send({
           error: `project id - {${req.params.projectId}} doesn't exist`,
         });
+
+      if (req.userId != project.userId.toString()) {
+        return res.status(401).send({ error: "Unauthorized access" });
+      }
 
       project.destroy().then(() =>
         clearProjectBucket(project).then(() =>
@@ -83,16 +88,22 @@ const deleteProject = (req: Request, res: Response) => {
  * Create a Project for a User
  * @param req.params.userId
  */
-const createProject = (req: Request, res: Response) => {
+const createProject = (req: UserAuthRequest, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(400).send({ error: error.array() });
   }
 
+  console.log(req.userId, req.params.id);
+
+  if (req.userId != req.params.id) {
+    return res.status(401).send({ error: "Unauthorized access" });
+  }
+
   db.user
     .findOne({
       where: {
-        id: req.params.userId,
+        id: req.params.id,
       },
       include: [Project],
     })
@@ -100,12 +111,12 @@ const createProject = (req: Request, res: Response) => {
       if (!user)
         return res
           .status(400)
-          .send({ error: `user id - {${req.params.userId}} doesn't exist` });
+          .send({ error: `user id - {${req.params.id}} doesn't exist` });
 
-      const largestOrder = user.projects.length > 0 ? user.projects.sort((a, b) => b.order - a.order)[0]
-        .order : 0;
-
-      console.log(largestOrder + 1);
+      const largestOrder =
+        user.projects.length > 0
+          ? user.projects.sort((a, b) => b.order - a.order)[0].order
+          : 0;
 
       db.project
         .create({
@@ -145,7 +156,7 @@ const createProject = (req: Request, res: Response) => {
  * Update a Project
  * @param req.params.projectId
  */
-const updateProject = (req: Request, res: Response) => {
+const updateProject = (req: UserAuthRequest, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(400).send({ error: error.array() });
@@ -162,6 +173,10 @@ const updateProject = (req: Request, res: Response) => {
         return res.status(400).send({
           error: `project id - {${req.params.projectId}} doesn't exist`,
         });
+
+      if (req.userId != project.userId.toString()) {
+        return res.status(401).send({ error: "Unauthorized access" });
+      }
 
       let [newMainMediaUrl, newMediaUrls] = await uploadProjectMedia(
         req,

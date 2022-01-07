@@ -26,6 +26,9 @@ export default class User extends Model {
   @Column
   password: string;
 
+  @Column
+  apiKey: string;
+
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];
 

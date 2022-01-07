@@ -8,10 +8,10 @@ const projectRoutes = Router();
 
 projectRoutes.use(authJwt.verifyToken);
 
-projectRoutes.get("/projects/:userId", projectController.getAllProjects);
+projectRoutes.get("/projects/:id", projectController.getAllProjects);
 projectRoutes.get("/project/:projectId", projectController.getProject);
 projectRoutes.post(
-  "/projects/:userId",
+  "/projects/:id",
   [check("title").exists().isString(), ...projectValidate],
   projectController.createProject
 );

@@ -3,6 +3,7 @@ import db from "../config/db.config";
 import portfolioStorage from "../config/storage.config";
 import { v4 as uuidv4 } from "uuid";
 import { UploadedFile } from "express-fileupload";
+import { UserAuthRequest } from "../types/request";
 
 const fs = require("fs");
 
@@ -29,7 +30,11 @@ const getProfile = (req: Request, res: Response) => {
  * @param req.params.userId this function uses the profile belonged to this user
  * @param res
  */
-const updateProfile = (req: Request, res: Response) => {
+const updateProfile = (req: UserAuthRequest, res: Response) => {
+  if (req.userId != req.params.userId) {
+    return res.status(401).send({ error: "Unauthrozied acess" });
+  }
+
   db.profile
     .findOrCreate({
       where: {

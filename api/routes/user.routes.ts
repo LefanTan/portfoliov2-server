@@ -25,5 +25,8 @@ userRoutes.delete(
   authJwt.verifyTokenIdMatching,
   userController.deleteUser
 );
-
-//userRoutes.post('/signout/:id), userController.signout);
+userRoutes.post(
+  "/:id/generate",
+  authJwt.verifyTokenIdMatching,
+  userController.createApiKey
+);

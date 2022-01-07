@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import db from "../config/db.config";
 import Profile from "../models/profile.model";
 import { UserAuthRequest } from "../types/request";
+import jwt from "jsonwebtoken";
+import authJwt from "../middleware/authJwt";
 
 const userBoard = (req: Request, res: Response) => {
   res.status(200).send("User Content");
@@ -82,10 +84,30 @@ const deleteUser = (req: UserAuthRequest, res: Response) => {
     });
 };
 
+const createApiKey = (req: Request, res: Response) => {
+  // Create key using JWT (Good idea?)
+  const newKey = jwt.sign(
+    { id: req.body.id },
+    process.env.JWT_SECRET || authJwt.default_secret
+  );
+
+  db.user
+    .findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    .then((user) => {
+      if (!user) return res.status(400).send({ error: "User doesn't exist" });
+      user?.update({ apiKey: newKey }).then(() => res.send({ key: newKey }));
+    });
+};
+
 const userController = {
   userBoard,
   getUser,
   updateUser,
   deleteUser,
+  createApiKey,
 };
 export default userController;

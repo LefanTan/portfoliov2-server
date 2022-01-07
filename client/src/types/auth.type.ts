@@ -2,6 +2,7 @@ export type UserData = {
   id: number;
   username: string;
   email: string;
+  apiKey?: string;
 };
 
 export type AuthData = {
@@ -19,4 +20,5 @@ export type AuthData = {
     password: string
   ) => Promise<UserData>;
   signout: () => Promise<void>;
+  generateApiKey: () => Promise<string | undefined>;
 };

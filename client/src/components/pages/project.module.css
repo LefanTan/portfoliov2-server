@@ -92,15 +92,15 @@ header button h2 {
 }
 
 .switch + label:after {
-  --margin: 5px;
+  --margin: 4px;
   --size: calc(25px - var(--margin));
 
   content: "";
   position: absolute;
-  top: 50%;
+  top: calc(50% - var(--margin) / 2);
   left: calc(var(--margin) / 2);
 
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + var(--margin) / 3));
 
   width: var(--size);
   height: var(--size);

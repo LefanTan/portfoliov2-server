@@ -3,14 +3,38 @@
   min-width: 27.5rem;
 }
 
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.main > .row {
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.row > h3:first-of-type {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.row > button {
+  margin-top: 0px;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
 .title {
   display: inline-block;
-  margin-bottom: 0.5rem;
-  margin-left: 1rem;
   font-size: 2rem;
   font-weight: 400;
 
   border-radius: 15px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   animation: 1.5s ease-in opacity;
   white-space: nowrap;
 }
@@ -22,4 +46,61 @@
   100% {
     opacity: 1;
   }
+}
+
+.key {
+  max-width: 15rem;
+  text-overflow: ellipsis;
+
+  box-shadow: 2px 2px 8px var(--shadow-main);
+  border-radius: 10px;
+  padding: 0.25rem 2rem 0.25rem 0.75rem;
+  font-size: 0.9rem;
+
+  white-space: nowrap;
+  position: relative;
+}
+
+.key > button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  background-color: transparent;
+
+  display: flex;
+  align-items: center;
+  transition: 200ms;
+}
+
+.key > button:hover {
+  color: var(--focus);
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip:before {
+  z-index: 2;
+  content: attr(data-tooltip);
+  position: absolute;
+
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 0.75rem;
+  transform: translateX(-50%);
+
+  color: black;
+  background-color: var(--main);
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
+
+  display: none;
+}
+
+.tooltip:hover:before {
+  display: block;
 }

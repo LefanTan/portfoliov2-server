@@ -29,7 +29,7 @@ export function main() {
     res.header(
       "Access-Control-Allow-Headers",
       //"x-access-token, Origin, Content-Type, Accept"
-      "x-access-token, Content-Type"
+      "x-access-token, Content-Type, Authorization"
     );
 
     // Credentials: If client request with this set to true,
