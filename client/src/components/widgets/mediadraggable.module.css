@@ -21,6 +21,9 @@
 
   transition: 200ms;
   background-color: var(--main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image_button:focus {
@@ -35,6 +38,9 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .check_background {

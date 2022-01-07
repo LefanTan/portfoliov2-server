@@ -151,6 +151,7 @@ const Project: React.FC = () => {
                 ...project,
                 title: project?.title,
                 description: project?.description,
+                inProgress: false,
               }}
               onSubmit={async (values) => {
                 const data = values as ProjectData;
@@ -292,7 +293,7 @@ const Project: React.FC = () => {
                         name="inProgress"
                         type="checkbox"
                         className={styles.switch}
-                        checked={values.inProgress || false}
+                        checked={values.inProgress}
                         onChange={handleChange}
                       />
                       <label htmlFor="inProgress"></label>

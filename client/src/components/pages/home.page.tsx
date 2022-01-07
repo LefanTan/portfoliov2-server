@@ -40,8 +40,9 @@ const HomePage = () => {
               <strong>API Key: </strong>
             </h3>
             <h3 className={styles.key}>
-              {authContext?.user?.apiKey?.slice(0, 25) + "..." ??
-                "Not Generated"}
+              {authContext?.user?.apiKey
+                ? authContext?.user?.apiKey?.slice(0, 25) + "..."
+                : "Not Generated"}
               <button
                 data-tooltip={tooltip}
                 className={styles.tooltip}

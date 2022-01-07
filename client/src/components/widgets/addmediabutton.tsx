@@ -38,7 +38,6 @@ const AddMediaButton: React.FC<AddMediaButtonProps> = (props) => {
         ref={inputRef}
         type="file"
         name="addmedia"
-        accept="video/*,image/*"
         multiple={props.multiple ?? true}
         id="addmedia"
       />

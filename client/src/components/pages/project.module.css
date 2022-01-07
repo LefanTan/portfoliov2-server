@@ -82,7 +82,7 @@ header button h2 {
   position: relative;
   cursor: pointer;
 
-  background-color: var(--error);
+  background-color: black;
   width: 50px;
   height: 25px;
   border-radius: 15px;
@@ -92,15 +92,15 @@ header button h2 {
 }
 
 .switch + label:after {
-  --margin: 4px;
+  --margin: 6px;
   --size: calc(25px - var(--margin));
 
   content: "";
   position: absolute;
-  top: calc(50% - var(--margin) / 2);
+  top: calc(50%);
   left: calc(var(--margin) / 2);
 
-  transform: translateY(calc(-50% + var(--margin) / 3));
+  transform: translateY(calc(-50%));
 
   width: var(--size);
   height: var(--size);
@@ -111,7 +111,7 @@ header button h2 {
 }
 
 .switch:checked + label {
-  background-color: black;
+  background-color: var(--focus);
 }
 
 .switch:checked + label:after {
