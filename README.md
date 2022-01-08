@@ -1,7 +1,8 @@
 # 1. What is this "Portfolio API"?
 
 [Manager Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/)  
-[API Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api)  
+[API Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api)    
+  
 PS: The site are not using the best security practices and https, so I don't recommend storing important information.  
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
   
@@ -16,8 +17,7 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 
 [API Docs](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/)
 
-To authorize your API requests,
-
+To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the [manager](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]).
 
 # 3. How the service works
 
@@ -40,6 +40,11 @@ Nginx acts a reverse proxy here to redirect api endpoints to the server and anyt
 
 ## 3.3. Error handling and Testing
 Not much to be said, they're not done much or well
+
+## 3.4 Accessiblity
+I tried my best to use as much semantics html as possible, but there are cases where I couldn't and I didn't use aria attributes, I would like to keep working on this.
+
+However, I did try following some good practices, such as having *strong contrast*, making sure *every interactive element is focusable*, *responsive design* etc.
 
 # 4. Setup the project
 

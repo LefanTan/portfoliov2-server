@@ -21,6 +21,7 @@
     "./routes/auth.routes.ts",
     "./routes/user.routes.ts",
     "./routes/profile.routes.ts",
-    "./routes/project.routes.ts"
+    "./routes/project.routes.ts",
+    "./routes/project.routes.js"
   ]
 }

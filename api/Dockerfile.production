@@ -20,6 +20,7 @@ WORKDIR /home/node/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node package-lock.json .
 COPY --chown=node:node .env .
+COPY --chown=node:node service-account.json .
 
 USER node
 
