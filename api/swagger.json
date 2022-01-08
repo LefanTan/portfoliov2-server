@@ -1,0 +1,26 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Portfolio Manager",
+      "version": "1.0.0",
+      "description": "This is a documentation for the Portfolio API",
+      "contact": {
+        "name": "JiaHui (Lefan) Tan",
+        "url": "https://lefantan.com",
+        "email": "lefantan@hotmail.com"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost/api"
+      }
+    ]
+  },
+  "apis": [
+    "./routes/auth.routes.ts",
+    "./routes/user.routes.ts",
+    "./routes/profile.routes.ts",
+    "./routes/project.routes.ts"
+  ]
+}

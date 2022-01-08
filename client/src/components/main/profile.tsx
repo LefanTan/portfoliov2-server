@@ -51,7 +51,7 @@ const Profile = () => {
     await updateOrCreateProfile(authContext.user?.id, {
       firstName: "",
       lastName: "",
-      skills: "",
+      skills: [],
       aboutMe: "",
       linkedin: "",
       github: "",
@@ -138,7 +138,7 @@ const Profile = () => {
     if (authContext.user)
       getProfile(authContext.user.id).then((data) => {
         setProfileData(data);
-        setSkills(data.skills ? data.skills?.split(",") : []);
+        setSkills(data.skills ?? []);
 
         let resumeFileName =
           data.resumeUrl && getFileNameFromUrl(data.resumeUrl, true);
@@ -181,7 +181,7 @@ const Profile = () => {
 
           const data = values as ProfileData;
 
-          data.skills = skills?.toString();
+          data.skills = skills;
           /**
            * Files
            * if there are new files, upload them

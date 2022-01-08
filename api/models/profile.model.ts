@@ -34,8 +34,8 @@ export default class Profile extends Model {
   @Column
   linkedin: string;
 
-  @Column
-  skills: string;
+  @Column(DataType.JSON)
+  skills: string[];
 
   @ForeignKey(() => User)
   userId: number;

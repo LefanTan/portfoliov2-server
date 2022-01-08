@@ -98,3 +98,7 @@ strong {
   margin-bottom: -0.5rem;
   color: var(--error);
 }
+
+.no-wrap {
+  white-space: nowrap;
+}
