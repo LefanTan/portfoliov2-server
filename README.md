@@ -10,12 +10,8 @@
 
 # 1. What is this "Portfolio API"?
 
-[Manager Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/)  
-[API Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api)    
-
-http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/  
-     ^^^  
-COPY THIS LINK
+Manager Link -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]  
+API Link -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api    
 
 PS: The site are not using the best security practices and https, so I don't recommend storing important information.  
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
@@ -29,9 +25,9 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 
 # 2. How to use 
 
-[API Docs](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/)
+API Docs -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/
 
-To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the [manager](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]).
+To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the manager.
 
 Note that you can only request for projects/profile that belongs to you, if you try to request for information that doesn't belong to you, you'll get a `401 error`
 
@@ -45,7 +41,7 @@ If you have a suggestion on how to do things better, definitely let me know (by 
 
 There's two ways to authenticate when using the `/api/` endpoints.
 
-1. When using the [portfolio manager](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/), the react client will receive a JWT token from server with the setting `{ httpOnly: true, sameSite: true}`. The client (axios) when used with `{ withCredientials: true }` will automatically send the jwt token in the request's cookie, authenticating the request. 
+1. When using the portfolio manager, the react client will receive a JWT token from server with the setting `{ httpOnly: true, sameSite: true}`. The client (axios) when used with `{ withCredientials: true }` will automatically send the jwt token in the request's cookie, authenticating the request. 
    - Takeway: I should store a refresh token in the cookie instead, the access token could then be store in memory. [Reason](https://stackoverflow.com/a/36280559). [Implementation](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/)
 
 2. To authenticate the API, client have to attach a generated API key (it's basically a JWT token with no expiration date) in the Authorization header. This generated API key is stored in the database, when user generate a new one, the old stops working
