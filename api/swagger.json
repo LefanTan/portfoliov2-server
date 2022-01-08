@@ -18,10 +18,9 @@
     ]
   },
   "apis": [
-    "./routes/auth.routes.ts",
-    "./routes/user.routes.ts",
-    "./routes/profile.routes.ts",
-    "./routes/project.routes.ts",
-    "./routes/project.routes.js"
+    "./routes/auth.routes.**",
+    "./routes/user.routes.**",
+    "./routes/profile.routes.**",
+    "./routes/project.routes.**"
   ]
 }
