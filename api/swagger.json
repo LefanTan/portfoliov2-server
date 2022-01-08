@@ -13,14 +13,19 @@
     },
     "servers": [
       {
-        "url": "http://localhost/api"
+        "url": "http://localhost/api",
+        "description": "Dev"
+      },
+      {
+        "url": "http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api",
+        "description": "Production"
       }
     ]
   },
   "apis": [
-    "./routes/auth.routes.**",
-    "./routes/user.routes.**",
-    "./routes/profile.routes.**",
-    "./routes/project.routes.**"
+    "./**/routes/auth.routes.**",
+    "./**/routes/user.routes.**",
+    "./**/routes/profile.routes.**",
+    "./**/routes/project.routes.**"
   ]
 }
