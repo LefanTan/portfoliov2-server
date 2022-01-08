@@ -13,9 +13,6 @@ main().listen(PORT, () => {
   console.log("app listening on port " + PORT);
 });
 
-// force = true only during development, as it drops all data
-// use alter?
-
 if (process.env.NODE_ENV !== "production") {
   db.sequelize.sync({ force: true }).then(async () => {
     console.log("Dropped and Resync DB");
@@ -29,7 +26,7 @@ if (process.env.NODE_ENV !== "production") {
     console.log("Server ready");
   });
 } else {
-  db.sequelize.sync({alter: true});
+  db.sequelize.sync({ alter: true });
 }
 
 // seed some data
