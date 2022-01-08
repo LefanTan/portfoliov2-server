@@ -12,7 +12,7 @@
 
 [Manager Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/)  
 [API Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api)    
-[http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/signin)
+http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/signin
 
 PS: The site are not using the best security practices and https, so I don't recommend storing important information.  
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
