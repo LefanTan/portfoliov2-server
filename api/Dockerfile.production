@@ -21,7 +21,6 @@ COPY --chown=node:node package.json .
 COPY --chown=node:node package-lock.json .
 COPY --chown=node:node swagger.json .
 COPY --chown=node:node .env .
-COPY --chown=node:node service-account.json .
 
 USER node
 
@@ -29,5 +28,6 @@ RUN npm install --only=prod
 RUN npm install pm2 
 RUN npm install typescript
 COPY --chown=node:node --from=builder /app/build ./build
+COPY --chown=node:node service-account.json ./build
 
 CMD ["npm", "run", "pm2"]
