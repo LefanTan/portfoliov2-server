@@ -16,7 +16,6 @@ const verifyToken = (
 ) => {
   let token = req.headers["x-access-token"] || req.cookies?.jwt;
   let key = req.headers["authorization"];
-  key = key?.split(" ")[1];
 
   if (!token && !key) {
     return res.status(403).send({ message: "No token/api key provided" });

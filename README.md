@@ -14,7 +14,9 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 
 # 2. How to use 
 
-[API Docs]()
+[API Docs](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/)
+
+To authorize your API requests,
 
 
 # 3. How the service works

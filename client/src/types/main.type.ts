@@ -3,7 +3,7 @@ export type ProfileData = {
   lastName?: string;
   // an array seperated by comma
   // Do skills.split(',') to get list of skills
-  skills?: string;
+  skills?: string[];
   aboutMe?: string;
   linkedin?: string;
   github?: string;

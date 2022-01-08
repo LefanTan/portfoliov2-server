@@ -1,16 +1,18 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import authRoutes from "./routes/auth.routes";
 import projectRoutes from "./routes/project.routes";
 import userRoutes from "./routes/user.routes";
 import cookieParser from "cookie-parser";
 import profileRoutes from "./routes/profile.routes";
 import fileUpload from "express-fileupload";
+import swaggerJsdoc from "swagger-jsdoc";
 
 require("dotenv").config();
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJson = require("./swagger.json");
 
 export const TEMP_STORAGE_PATH = __dirname + "/tmp";
-
 export function main() {
   var app = express();
 
@@ -56,6 +58,13 @@ export function main() {
 
   // use src folder to serve static html
   app.use(express.static("src"));
+
+  // serve swagger docs
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerJsdoc(swaggerJson), { explorer: true })
+  );
 
   app.use("/auth", authRoutes);
   app.use("/user", userRoutes);
