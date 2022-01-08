@@ -25,7 +25,7 @@ export default class Profile extends Model {
   @Column(DataType.TEXT)
   resumeUrl: string;
 
-  @Column
+  @Column(DataType.TEXT)
   aboutMe: string;
 
   @Column
