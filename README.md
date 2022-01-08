@@ -1,3 +1,13 @@
+- [1. What is this "Portfolio API"?](#1-what-is-this-portfolio-api)
+- [2. How to use](#2-how-to-use)
+- [3. How the service works](#3-how-the-service-works)
+  - [3.1. Authentication](#31-authentication)
+  - [3.2. Nginx and Docker](#32-nginx-and-docker)
+  - [3.3. Error handling and Testing](#33-error-handling-and-testing)
+  - [3.4. Accessiblity](#34-accessiblity)
+- [4. Setup the project](#4-setup-the-project)
+- [5. Run tests](#5-run-tests)
+
 # 1. What is this "Portfolio API"?
 
 [Manager Link](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/)  
@@ -18,6 +28,8 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 [API Docs](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/)
 
 To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the [manager](http://[2605:fd00:4:1001:f816:3eff:fe10:f249]).
+
+Note that you can only request for projects/profile that belongs to you, if you try to request for information that doesn't belong to you, you'll get a `401 error`
 
 # 3. How the service works
 
@@ -41,7 +53,7 @@ Nginx acts a reverse proxy here to redirect api endpoints to the server and anyt
 ## 3.3. Error handling and Testing
 Not much to be said, they're not done much or well
 
-## 3.4 Accessiblity
+## 3.4. Accessiblity
 I tried my best to use as much semantics html as possible, but there are cases where I couldn't and I didn't use aria attributes, I would like to keep working on this.
 
 However, I did try following some good practices, such as having *strong contrast*, making sure *every interactive element is focusable*, *responsive design* etc.
@@ -51,14 +63,13 @@ However, I did try following some good practices, such as having *strong contras
 1. Download the service account file for Google Storage client and place it in ./api
    - name the json file `service-account.json`
 
-2. make a copy of `.env.example` in `/api` 
+2. make a copy of `.env.example` in `/api` as `.env` and fill in appropriate info
 
-2. Make sure Docker CLI and Docker-Compose is installed
+3. Make sure Docker CLI and Docker-Compose is installed
    - Tested for Docker v20.10.7 and Docker-Compose v1.29.2
 
-3. Run `docker-compose up --build` to spin up the containers
+4. Run `docker-compose up --build` to spin up the containers
    - For production, do `docker-compose -f docker-compose.dev.yml up --build`
-
 
 # 5. Run tests
 Test will always run once during `docker-compose up` in the `test_api` container
