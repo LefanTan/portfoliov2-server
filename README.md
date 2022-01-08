@@ -41,6 +41,11 @@ Nginx acts a reverse proxy here to redirect api endpoints to the server and anyt
 ## 3.3. Error handling and Testing
 Not much to be said, they're not done much or well
 
+## 3.4 Accessiblity
+I tried my best to use as much semantics html as possible, but there are cases where I couldn't and I didn't use aria attributes, I would like to keep working on this.
+
+However, I did try following some good practices, such as having *strong contrast*, making sure *every interactive element is focusable*, *responsive design* etc.
+
 # 4. Setup the project
 
 1. Download the service account file for Google Storage client and place it in ./api
