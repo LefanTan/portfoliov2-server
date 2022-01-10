@@ -35,6 +35,9 @@ export default class Project extends Model {
   @Column
   repo: string;
 
+  @Column
+  type: string;
+
   @Column(DataType.TEXT)
   purposeAndGoal: string;
 

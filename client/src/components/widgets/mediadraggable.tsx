@@ -25,6 +25,7 @@ const MediaDraggable: React.FC<MediaProps> = (props) => {
         >
           <div
             role="button"
+            aria-label="main media"
             onClick={props.onClick}
             className={styles.image_button}
           >
@@ -44,6 +45,7 @@ const MediaDraggable: React.FC<MediaProps> = (props) => {
           </div>
           <button
             type="button"
+            aria-label="delete"
             onClick={props.onDeleteClick}
             className={styles.remove_button}
           >
