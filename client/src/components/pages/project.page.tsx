@@ -286,17 +286,32 @@ const Project: React.FC = () => {
                         onChange={handleChange}
                       />
 
-                      <label id="inProgressLabel">In Progress</label>
-                      <input
-                        aria-labelledby="inProgressLabel"
-                        id="inProgress"
-                        name="inProgress"
-                        type="checkbox"
-                        className={styles.switch}
-                        checked={values.inProgress}
-                        onChange={handleChange}
-                      />
-                      <label htmlFor="inProgress"></label>
+                      <div className={styles.type_progress_row}>
+                        <div>
+                          <label id="type">Type</label>
+                          <input
+                            id="type"
+                            name="type"
+                            type="text"
+                            value={values.type}
+                            onChange={handleChange}
+                          />
+                        </div>
+
+                        <div>
+                          <label id="inProgressLabel">In Progress</label>
+                          <input
+                            aria-labelledby="inProgressLabel"
+                            id="inProgress"
+                            name="inProgress"
+                            type="checkbox"
+                            className={styles.switch}
+                            checked={values.inProgress}
+                            onChange={handleChange}
+                          />
+                          <label htmlFor="inProgress"></label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <label htmlFor="techStack">Tech Stack</label>

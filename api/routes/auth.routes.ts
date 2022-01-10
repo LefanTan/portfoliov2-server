@@ -100,6 +100,9 @@ export default authRoutes;
  *              link:
  *                  type: string
  *                  description: link to the website of this project
+ *              type:
+ *                  type: string
+ *                  description: "work", "academic", "personal"
  *              stack:
  *                  type: array
  *                  items:

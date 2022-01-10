@@ -31,7 +31,11 @@ export function Header() {
           </li>
         </ul>
       </nav>
-      <button className={styles.burger} onClick={() => setShowBar(true)}>
+      <button
+        className={styles.burger}
+        aria-label="side navigation"
+        onClick={() => setShowBar(true)}
+      >
         <AiOutlineMenu className={styles.burger_icon} />
       </button>
     </header>

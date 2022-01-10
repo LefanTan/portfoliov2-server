@@ -26,6 +26,7 @@ export type ProjectData = {
   stack?: string[];
   link?: string;
   repo?: string;
+  type?: string;
   purposeAndGoal?: string;
   problems?: string;
   lessonsLearned?: string;

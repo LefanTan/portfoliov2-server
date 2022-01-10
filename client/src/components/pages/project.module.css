@@ -19,7 +19,7 @@ header button h2 {
 }
 
 .project_form {
-  min-width: 27.5rem;
+  min-width: 35rem;
 }
 
 .row {
@@ -68,7 +68,7 @@ header button h2 {
 }
 
 .project_form textarea {
-  min-height: 6rem;
+  min-height: 6.5rem;
 }
 
 .switch {
@@ -116,4 +116,14 @@ header button h2 {
 
 .switch:checked + label:after {
   left: calc(var(--size) + var(--margin) * 1.5);
+}
+
+.type_progress_row {
+  display: flex;
+  margin-top: 0px;
+}
+
+.type_progress_row > div:first-of-type {
+  margin-right: 0.5rem;
+  flex: 1;
 }

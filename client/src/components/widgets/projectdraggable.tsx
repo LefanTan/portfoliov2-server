@@ -34,6 +34,7 @@ const ProjectDraggable: React.FC<ProjectDraggableProps> = (props) => {
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="website"
                 className={styles.icon_button}
               >
                 <FaLink size={20} />
@@ -45,12 +46,17 @@ const ProjectDraggable: React.FC<ProjectDraggableProps> = (props) => {
                 target="_blank"
                 rel="noreferrer"
                 className={styles.icon_button}
+                aria-label="github"
               >
                 <FaGithubAlt size={20} />
               </a>
             )}
           </div>
-          <Link to={`/project/${project.id}`} className={styles.icon_button}>
+          <Link
+            to={`/project/${project.id}`}
+            aria-label="project details"
+            className={styles.icon_button}
+          >
             <FaChevronCircleRight size={25} />
           </Link>
 
