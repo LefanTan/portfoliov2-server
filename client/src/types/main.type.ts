@@ -20,9 +20,10 @@ export type ProfileData = {
 export type ProjectData = {
   id: number;
   title: string;
-  description: string;
+  shortDescription: string;
   order: number;
 
+  description?: string;
   stack?: string[];
   link?: string;
   repo?: string;

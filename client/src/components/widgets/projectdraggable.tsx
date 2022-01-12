@@ -26,7 +26,7 @@ const ProjectDraggable: React.FC<ProjectDraggableProps> = (props) => {
         >
           <div>
             <h1>{props.project.title}</h1>
-            <p>{props.project.description}</p>
+            <p>{props.project.shortDescription}</p>
           </div>
           <div className={styles.row}>
             {project.link && (
