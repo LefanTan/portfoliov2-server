@@ -16,7 +16,9 @@ export default class Project extends Model {
   @Column
   title: string;
 
-  @AllowNull(false)
+  @Column(DataType.TEXT)
+  shortDescription: string;
+
   @Column(DataType.TEXT)
   description: string;
 

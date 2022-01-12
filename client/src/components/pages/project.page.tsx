@@ -23,7 +23,7 @@ import { AuthContext } from "../../providers/auth.provider";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title required"),
-  description: Yup.string().required("Description required"),
+  shortDescription: Yup.string().required("Short description required"),
 });
 
 const Project: React.FC = () => {
@@ -150,7 +150,7 @@ const Project: React.FC = () => {
               initialValues={{
                 ...project,
                 title: project?.title,
-                description: project?.description,
+                shortDescription: project?.shortDescription,
                 inProgress: false,
               }}
               onSubmit={async (values) => {
@@ -260,21 +260,21 @@ const Project: React.FC = () => {
 
                   <div className={styles.row}>
                     <div>
-                      <label htmlFor="description">
-                        Description <span>(required)</span>
+                      <label htmlFor="shortDescription">
+                        Short Description <span>(required)</span>
                       </label>
                       <textarea
-                        className={`${styles.description} ${
-                          touched.description && errors.description
+                        className={`${styles.shortDescription} ${
+                          touched.shortDescription && errors.shortDescription
                             ? "red-outline"
                             : ""
                         }`}
-                        id="description"
-                        name="description"
-                        value={values.description || ""}
+                        id="shortDescription"
+                        name="shortDescription"
+                        value={values.shortDescription || ""}
                         onChange={handleChange}
                       />
-                      <FormError name="description" />
+                      <FormError name="shortDescription" />
                     </div>
                     <div>
                       <label htmlFor="repo">Repo</label>
@@ -316,6 +316,14 @@ const Project: React.FC = () => {
                   </div>
                   <label htmlFor="techStack">Tech Stack</label>
                   <CategoryInput values={stack} onChange={setStack} />
+
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={values.description || ""}
+                    onChange={handleChange}
+                  />
 
                   <label htmlFor="purposeAndGoal">Purpose & Goal</label>
                   <textarea
