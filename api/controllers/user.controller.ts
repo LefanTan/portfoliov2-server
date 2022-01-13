@@ -101,7 +101,7 @@ const deleteUser = (req: UserAuthRequest, res: Response) => {
 const createApiKey = (req: Request, res: Response) => {
   // Create key using JWT (Good idea?)
   const newKey = jwt.sign(
-    { id: req.body.id },
+    { id: req.params.id },
     process.env.JWT_SECRET || authJwt.default_secret
   );
 
