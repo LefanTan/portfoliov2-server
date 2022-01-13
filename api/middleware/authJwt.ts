@@ -48,6 +48,7 @@ const verifyToken = (
             .status(401)
             .send({ message: "API Key does not belong to any user" });
         }
+
         jwt.verify(
           key!,
           process.env.JWT_SECRET || default_secret,
@@ -86,9 +87,9 @@ const verifyTokenIdMatching = (
   next: NextFunction
 ) => {
   if (req.userId != req.params.id) {
-    return res
-      .status(403)
-      .send({ error: "Token user id does not match requested id" });
+    return res.status(403).send({
+      error: `Token user id ${req.userId} does not match requested id ${req.params.id}`,
+    });
   }
   next();
 };
