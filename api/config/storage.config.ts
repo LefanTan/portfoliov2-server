@@ -42,11 +42,11 @@ class PortfolioStorage {
           // Wonky way to create an indefinite url
           // (which just makes it a public url)
           // OPTIONAL TODO: Create a signed url linked to JWT Token
-          expires: moment().add(100, "years").format("DD-MM-YYYY"),
+          expires: moment().add(100, "years").toDate(),
         })
         .then((data) => data[0])
-        .catch(() => {
-          throw Error("Getting signed url failed");
+        .catch((err) => {
+          throw Error("Getting signed url failed: " + err);
         });
     } catch (err) {
       console.error(err);
