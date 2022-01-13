@@ -14,22 +14,36 @@ const userBoard = (req: Request, res: Response) => {
  * @param req.params.id - user id
  */
 const getUser = (req: UserAuthRequest, res: Response) => {
-  db.user
-    .findOne({
-      where: {
-        id: req.params.id,
-      },
-      include: [Profile],
-    })
-    .then((user) => {
-      if (!user) {
-        return res
-          .status(400)
-          .send({ error: `user id {${req.params.id}} doesn't exist` });
-      }
+  // user wants to get User by apikey
+  if (!req.params.id) {
+    db.user
+      .findOne({ where: { id: req.userId }, include: [Profile] })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).send({
+            error: `user id {${req.userId}} from api key/token doesn't exist`,
+          });
+        }
+        return res.send(user);
+      });
+  } else {
+    db.user
+      .findOne({
+        where: {
+          id: req.params.id,
+        },
+        include: [Profile],
+      })
+      .then((user) => {
+        if (!user) {
+          return res
+            .status(400)
+            .send({ error: `user id {${req.params.id}} doesn't exist` });
+        }
 
-      return res.send(user);
-    });
+        return res.send(user);
+      });
+  }
 };
 /**
  * Update user info as well as profile info

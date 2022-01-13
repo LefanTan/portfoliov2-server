@@ -20,7 +20,17 @@ userRoutes.use(authJwt.verifyToken);
  *  description: api to related to User and their Profile
  */
 
-userRoutes.get("/", userController.userBoard);
+/**
+ * @swagger
+ *  /user:
+ *      get:
+ *          summary: Get information on the user and it's profile using ID from apikey/token
+ *          tags: [User]
+ *          responses:
+ *              "200":
+ *                  description: returns the user and profile
+ */
+userRoutes.get("/", userController.getUser);
 
 /**
  * @swagger
