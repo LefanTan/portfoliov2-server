@@ -151,7 +151,7 @@ const Project: React.FC = () => {
                 ...project,
                 title: project?.title,
                 shortDescription: project?.shortDescription,
-                inProgress: false,
+                inProgress: project?.inProgress,
               }}
               onSubmit={async (values) => {
                 const data = values as ProjectData;
