@@ -71,6 +71,8 @@ However, I did try following some good practices, such as having *strong contras
 4. Run `docker-compose up --build` to spin up the containers
    - For production, do `docker-compose -f docker-compose.dev.yml up --build`
 
+5. Create a SSL certificate `openssl req -new -newkey rsa:4096 -x509 -sha256 -days 770 -nodes -out nginx-certificate.crt -keyout nginx.key`
+
 # 5. Run tests
 Test will always run once during `docker-compose up` in the `test_api` container
 

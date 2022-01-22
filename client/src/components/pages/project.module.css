@@ -110,6 +110,10 @@ header button h2 {
   transition: 300ms;
 }
 
+.switch:focus + label {
+  outline: 2px solid black;
+}
+
 .switch:checked + label {
   background-color: var(--focus);
 }
