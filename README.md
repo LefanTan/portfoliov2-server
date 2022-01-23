@@ -10,10 +10,9 @@
 
 # 1. What is this "Portfolio API"?
 
-Manager Link -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]  
-API Link -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api    
+Manager Link -> https://[2605:fd00:4:1001:f816:3eff:fe10:f249]  
+API Link -> https://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api    
 
-PS: The site are not using the best security practices and https, so I don't recommend storing important information.  
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
   
     
@@ -25,7 +24,7 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 
 # 2. How to use 
 
-API Docs -> http://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/
+API Docs -> https://[2605:fd00:4:1001:f816:3eff:fe10:f249]/api-docs/
 
 To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the manager.
 
