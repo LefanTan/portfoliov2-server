@@ -34,7 +34,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "443:443"
   mysql:
     image: mysql:8.0.27
     container_name: mysql
