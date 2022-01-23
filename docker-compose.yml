@@ -61,6 +61,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "443:443"
+      - "80:80"
   mysql:
     image: mysql:8.0.27
     container_name: mysql
