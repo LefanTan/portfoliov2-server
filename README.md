@@ -10,7 +10,7 @@
 
 # 1. What is this "Portfolio API"?
 
-[Manager Link](https://api.lefantan.com)
+[Manager Link](https://api.lefantan.com)  
 [API Link](https://api.lefantan.com)
 
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
