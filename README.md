@@ -10,8 +10,8 @@
 
 # 1. What is this "Portfolio API"?
 
-(Manager Link)[https://api.lefantan.com]
-(API Link)[https://api.lefantan.com]   
+[Manager Link](https://api.lefantan.com)
+[API Link](https://api.lefantan.com)
 
 PS: Yeah the link is a funky ipv6 address, Im kinda broke for a domain name
   
@@ -24,7 +24,7 @@ Even though this website serves as a practice in Docker, Express, SQL, Semantic 
 
 # 2. How to use 
 
-(API Docs)[https://api.lefantan.com/api-docs]
+[API Docs](https://api.lefantan.com/api-docs)
 
 To authorize your API requests, send your requests with the `Authorization` header containing your generated API key, which can be done through the manager.
 
