@@ -46,6 +46,8 @@ There's two ways to authenticate when using the `/api/` endpoints.
 2. To authenticate the API, client have to attach a generated API key (it's basically a JWT token with no expiration date) in the Authorization header. This generated API key is stored in the database, when user generate a new one, the old stops working
    - I used JWT to create the API cause I need to encode/decode some data in the key securely. I'm sure there's a better way to generate API keys
 
+3. When user try to access an unauthorized endpoint (they haven't logged in etc), I should redirect through the server with 3** code, right now I'm using react router to redirect on the frontend
+
 ## 3.2. Nginx and Docker
 Nginx acts a reverse proxy here to redirect api endpoints to the server and anything else to the client. I've also dockerized the SQL server, NGINX server, as well as the API server and react client. 
 
