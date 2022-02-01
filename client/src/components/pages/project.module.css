@@ -45,7 +45,12 @@ header button h2 {
   margin-top: 1rem;
   display: flex;
   flex-wrap: nowrap;
-  min-height: 4.75rem;
+
+  max-width: 100%;
+  min-height: 5rem;
+  padding: 0.25rem;
+
+  overflow-x: auto;
 }
 
 .description {
