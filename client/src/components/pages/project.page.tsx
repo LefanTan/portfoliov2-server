@@ -42,7 +42,14 @@ const Project: React.FC = () => {
   /**
    * End drag handler for React-beautiful-dnd
    */
-  const onDragEndHandler = (result: DropResult) => {};
+  const onDragEndHandler = (result: DropResult) => {
+    if (result.destination) {
+      const temp = [...Array.from(medias)];
+      temp.splice(result.source.index, 1);
+      temp.splice(result.destination?.index, 0, medias[result.source.index]);
+      setMedias(temp);
+    }
+  };
   const goHome = () => navigation("/home", { replace: true });
 
   /**
@@ -293,7 +300,7 @@ const Project: React.FC = () => {
                             id="type"
                             name="type"
                             type="text"
-                            value={values.type}
+                            value={values.type || ""}
                             onChange={handleChange}
                           />
                         </div>
