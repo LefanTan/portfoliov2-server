@@ -20,10 +20,6 @@ export function main() {
    * Setup Global Middlewares
    */
 
-  // Enable cors to all origins
-  // Access-Control-Allow-Origin: *
-  app.use(cors());
-
   app.use(cookieParser());
 
   // Allow the following response headers
@@ -39,6 +35,10 @@ export function main() {
     res.header("Access-Control-Allow-Credentials", "true");
     next();
   });
+
+  // Enable CORS on all origin
+  // Access-Control-Allow-Origin: *
+  app.use(cors());
 
   // parse requests of content-type - application/json
   app.use(express.json());
